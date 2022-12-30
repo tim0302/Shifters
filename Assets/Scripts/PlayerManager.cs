@@ -21,6 +21,7 @@ namespace Shifters
         // [Header("Player Flags")]
         void Start()
         {
+            Cursor.visible = false;
             Application.targetFrameRate = 144;
             cameraHandler = CameraHandler.singleton;
             inputHandler = GetComponent<InputHandler>();

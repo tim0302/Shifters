@@ -32,7 +32,7 @@ namespace Shifters
         }
         public void HandleLightAttack(WeaponItem weapon)
         {
-            if (!animatorHandler.animator.GetBool("isInteracting") || inputHandler.comboFlag)
+            if (!animatorHandler.animator.GetBool("isInteracting"))
             {
                 animatorHandler.PlayerTargetAnimation(weapon.Light_Attack_1, true);
                 characterEffectManager.PlayWeaponFX(false);
