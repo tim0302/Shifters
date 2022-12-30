@@ -32,6 +32,10 @@ namespace Shifters
 
         public void TakeDamage(int damage)
         {
+            if (currentHealth <= 0)
+            {
+                return;
+            }
             currentHealth -= damage;
             animator.Play("Damage");
 

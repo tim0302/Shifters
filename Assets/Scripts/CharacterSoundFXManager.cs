@@ -31,8 +31,12 @@ namespace Shifters
         private List<AudioClip> potentialFlameSlashHitSound;
         public AudioClip[] flameSlashHitSound;
         private AudioClip lastFlameSlashHitSound;
+        public AudioClip rollSound;
+        public AudioClip footStep;
+        AnimatorHandler animatorHandler;
         protected void Awake()
         {
+            animatorHandler = GetComponent<AnimatorHandler>();
             audioSource = GetComponent<AudioSource>();
             playerInventory = GetComponent<PlayerInventory>();
         }
@@ -82,6 +86,19 @@ namespace Shifters
         public virtual void PlayFireSlash()
         {
             audioSource.PlayOneShot(flameSlash);
+        }
+
+        public virtual void PlayRollSound()
+        {
+            audioSource.PlayOneShot(rollSound);
+        }
+
+        public virtual void PlayFootStep()
+        {
+            if (!animatorHandler.animator.GetBool("isInteracting"))
+            {
+                audioSource.PlayOneShot(footStep, 0.1f);
+            }
         }
         public virtual void PlayFireSlashHitSound()
         {
