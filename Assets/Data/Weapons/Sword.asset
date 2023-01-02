@@ -16,6 +16,7 @@ MonoBehaviour:
   modelPrefab: {fileID: 2639195786383032608, guid: 0b2e144671c21d94fba7810236252220, type: 3}
   Light_Attack_1: Light_Attack_1
   Light_Attack_2: Light_Attack_2
+  Heavy_Attack: Heavy_Attack
   Special_Attack: Special_Attack
   weaponWhooshes:
   - {fileID: 8300000, guid: 1639a97e107254f4f84adc0062b9b5a1, type: 3}

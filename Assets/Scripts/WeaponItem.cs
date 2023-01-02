@@ -13,6 +13,7 @@ namespace Shifters
         public string Light_Attack_1;
 
         public string Light_Attack_2;
+        public string Heavy_Attack;
 
         public string Special_Attack;
         [Header("Sound FX")]

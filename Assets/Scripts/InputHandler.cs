@@ -83,6 +83,7 @@ namespace Shifters
                     playerAttacker.HandleWeaponCombo(playerInventory.weapon);
                     comboFlag = false;
                 }
+
                 else
                 {
                     playerAttacker.HandleLightAttack(playerInventory.weapon);
