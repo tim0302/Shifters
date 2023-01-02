@@ -1,27 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Shifters
 {
     public class EnemyManager : CharacterManager
     {
+        public State currentState;
+        public CharacterStats currentTarget;
+        public NavMeshAgent navMeshAgent;
+        public float rotationSpeed = 15;
+        public float maximumAttackRange = 10f;
+        EnemyStats enemyStats;
         EnemyLocomotionManager enemyLocomotionManager;
+        EnemyAnimatorManager enemyAnimatorManager;
         public bool isPreformingAction;
+        public Rigidbody enemyRigidbody;
+
         [Header("AI setting")]
         public float detectionRadius = 20;
         public float maximumDetectionAngle = 50;
         public float minimumDetectionAngle = -50;
+        public float currentRecoveryTime = 0;
+        public float viewableAngle;
         private void Awake()
         {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
+            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
+            enemyStats = GetComponent<EnemyStats>();
+            navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+            navMeshAgent.enabled = false;
+            enemyRigidbody = GetComponent<Rigidbody>();
+
+        }
+        private void Start()
+        {
+            enemyRigidbody.isKinematic = false;
         }
 
         // Update is called once per frame
         private void Update()
         {
-            HandleCurrentAction();
-
+            HandleStateMachine();
+            HandleRecoveryTimer();
         }
 
         private void FixedUpdate()
@@ -29,16 +51,25 @@ namespace Shifters
 
         }
 
-        private void HandleCurrentAction()
+        private void HandleStateMachine()
         {
-            if (enemyLocomotionManager.currentTarget == null)
+            if (enemyStats.isDead)
             {
-                enemyLocomotionManager.HandleDetection();
+                return;
             }
-            else
+            if (currentState != null)
             {
-                enemyLocomotionManager.HandleMoveToTarget();
+                State nextState = currentState.Tick(this, enemyStats, enemyAnimatorManager);
+                if (nextState != null)
+                {
+                    SwitchToNextState(nextState);
+                }
             }
+        }
+
+        private void SwitchToNextState(State state)
+        {
+            currentState = state;
         }
 
         private void OnDrawGizmosSelected()
@@ -51,5 +82,21 @@ namespace Shifters
             Gizmos.DrawRay(transform.position, fovLine1);
             Gizmos.DrawRay(transform.position, fovLine2);
         }
+
+        private void HandleRecoveryTimer()
+        {
+            if (currentRecoveryTime > 0)
+            {
+                currentRecoveryTime -= Time.deltaTime;
+            }
+            if (isPreformingAction)
+            {
+                if (currentRecoveryTime <= 0)
+                {
+                    isPreformingAction = false;
+                }
+            }
+        }
+
     }
 }

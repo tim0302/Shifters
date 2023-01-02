@@ -23,6 +23,9 @@ namespace Shifters
         [SerializeField]
         float rotationSpeed = 10;
 
+
+        public CapsuleCollider characterCollider;
+        public CapsuleCollider characterCollisionBlockerCollider;
         void Start()
         {
             playerManager = GetComponent<PlayerManager>();
@@ -32,6 +35,7 @@ namespace Shifters
             myTransform = transform;
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             animatorHandler.Initialise();
+            Physics.IgnoreCollision(characterCollider, characterCollisionBlockerCollider, true);
         }
 
         #region Movement

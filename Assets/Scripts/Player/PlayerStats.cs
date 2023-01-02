@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Shifters
 {
@@ -8,13 +9,17 @@ namespace Shifters
     {
 
         public HealthBar healthbar;
+        public Gradient gradient;
         AnimatorHandler animatorHandler;
         CharacterSoundFXManager characterSoundFXManager;
-
+        WeaponManager weaponManager;
+        PlayerManager playerManager;
         void Awake()
         {
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            weaponManager = GetComponent<WeaponManager>();
+            playerManager = GetComponent<PlayerManager>();
         }
         void Start()
         {
@@ -30,15 +35,26 @@ namespace Shifters
 
         public void TakeDamage(int damage)
         {
+            if (playerManager.isInvulnerable)
+                return;
+            if (isDead)
+                return;
             currentHealth -= damage;
+            //change color
+            var barFill = GameObject.Find("Health Bar Fill");
+            Image image = barFill.GetComponent<Image>();
+            image.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+
             healthbar.SetCurrentHealth(currentHealth);
             animatorHandler.PlayerTargetAnimation("Damage", true);
-
+            characterSoundFXManager.PlayRandomDamageSoundFX();
+            weaponManager.CloseDamageCollider();
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
                 animatorHandler.PlayerTargetAnimation("Death", true);
                 characterSoundFXManager.PlayRandomDeathSound();
+                isDead = true;
             }
         }
 

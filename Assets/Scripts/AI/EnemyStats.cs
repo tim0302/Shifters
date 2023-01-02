@@ -10,11 +10,12 @@ namespace Shifters
         AnimatorHandler animatorHandler;
 
         CharacterSoundFXManager characterSoundFXManager;
-
+        EnemyWeaponManager enemyWeaponManager;
         void Awake()
         {
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
             animator = GetComponentInChildren<Animator>();
+            enemyWeaponManager = GetComponent<EnemyWeaponManager>();
         }
         void Start()
         {
@@ -29,19 +30,19 @@ namespace Shifters
 
         public void TakeDamage(int damage)
         {
-            if (currentHealth <= 0)
-            {
+            if (isDead)
                 return;
-            }
+
             currentHealth -= damage;
             animator.Play("Damage");
-
+            enemyWeaponManager.CloseDamageCollider();
             characterSoundFXManager.PlayRandomDamageSoundFX();
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
                 animator.Play("Death");
                 characterSoundFXManager.PlayRandomDeathSound();
+                isDead = true;
             }
         }
 

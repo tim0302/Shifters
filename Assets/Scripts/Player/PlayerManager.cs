@@ -14,7 +14,7 @@ namespace Shifters
         public bool canDoCombo;
         public bool canDoRollAttack;
         public CharacterSoundFXManager characterSoundFXManager;
-
+        public bool isInvulnerable;
         void Awake()
         {
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
@@ -38,6 +38,7 @@ namespace Shifters
             canDoRollAttack = animator.GetBool("canDoRollAttack");
             inputHandler.TickInput(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
+            isInvulnerable = animator.GetBool("isInvulnerable");
         }
 
         private void FixedUpdate()

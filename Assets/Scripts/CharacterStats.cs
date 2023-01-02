@@ -8,15 +8,7 @@ namespace Shifters
     {
         public int healthLevel = 10;
         public int maxHealth;
-        public int currentHealth; void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        public int currentHealth;
+        public bool isDead;
     }
 }

@@ -29,7 +29,7 @@ namespace Shifters
 
         public void OnTriggerEnter(Collider collision)
         {
-            if (collision.tag == "player")
+            if (collision.tag == "Player")
             {
                 PlayerStats playerStats = collision.GetComponent<PlayerStats>();
                 if (playerStats != null)
