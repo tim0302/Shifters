@@ -7,29 +7,38 @@ namespace Shifters
     public class PursueTargetState : State
     {
         public CombatStanceState combatStanceState;
+        public RotateTowardsTargetState rotateTowardsTargetState;
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
+            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
+            float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
+
+            HandleRotationTowardsTarget(enemyManager);
+
+            if (viewableAngle > 65 || viewableAngle < -65)
+                return rotateTowardsTargetState;
+
+            if (enemyManager.isInteracting)
+            {
+                return this;
+            }
+
             if (enemyManager.isPreformingAction)
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                 return this;
             }
 
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
-
-            if (distanceFromTarget > enemyManager.maximumAttackRange)
+            if (distanceFromTarget > enemyManager.maximumAggroRadius)
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
             }
 
-            HandleRotationTowardsTarget(enemyManager);
+            // enemyManager.navMeshAgent.transform.localPosition = Vector3.zero;
+            // enemyManager.navMeshAgent.transform.localRotation = Quaternion.identity;
 
-            enemyManager.navMeshAgent.transform.localPosition = Vector3.zero;
-            enemyManager.navMeshAgent.transform.localRotation = Quaternion.identity;
-
-            if (distanceFromTarget <= enemyManager.maximumAttackRange)
+            if (distanceFromTarget <= enemyManager.maximumAggroRadius)
             {
                 return combatStanceState;
             }
@@ -52,7 +61,7 @@ namespace Shifters
                 }
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
+                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed * Time.deltaTime);
             }
             //rotate with pathfinding (navmesh)
             else

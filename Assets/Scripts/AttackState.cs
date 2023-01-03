@@ -7,92 +7,39 @@ namespace Shifters
     public class AttackState : State
     {
         public CombatStanceState combatStanceState;
-        public EnemyAttackAction[] enemyAttacks;
         public EnemyAttackAction currentAttack;
+        public RotateTowardsTargetState rotateTowardsTargetState;
+        public PursueTargetState pursueTargetState;
+        public bool hasPerformedAttack = false;
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
+            print("EnterAttack");
+
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-            HandleRotationTowardsTarget(enemyManager);
-
-            if (enemyManager.isPreformingAction)
-                return combatStanceState;
-
-            if (currentAttack != null)
+            RotateTowardsTargetWhilestAttacking(enemyManager);
+            if (distanceFromTarget > enemyManager.maximumAggroRadius)
             {
-                if (distanceFromTarget < currentAttack.minimumDistanceNeededToAttack)
-                {
-                    return this;
-                }
-                else if (distanceFromTarget < currentAttack.maximumDistanceNeededToAttack)
-                {
-                    if (viewableAngle <= currentAttack.maximumAttackAngle && viewableAngle >= currentAttack.minimumAttackAngle)
-                    {
-                        if (enemyManager.currentRecoveryTime <= 0 && enemyManager.isPreformingAction == false)
-                        {
-                            enemyAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
-                            enemyAnimatorManager.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
-                            enemyAnimatorManager.PlayerTargetAnimation(currentAttack.actionAnimation, true);
-                            enemyManager.isPreformingAction = true;
-                            enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
-                            currentAttack = null;
-                            return combatStanceState;
-                        }
-                    }
-                }
+                return pursueTargetState;
+            }
 
-            }
-            else
+            if (!hasPerformedAttack)
             {
-                GetNewAttack(enemyManager);
+                AttackTarget(enemyAnimatorManager, enemyManager);
             }
-            return combatStanceState;
+
+            return rotateTowardsTargetState;
         }
 
-        private void GetNewAttack(EnemyManager enemyManager)
+        private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
-            Vector3 targetsDirection = enemyManager.currentTarget.transform.position - transform.position;
-            float viewableAngle = Vector3.Angle(targetsDirection, transform.forward);
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
-
-            int maxScore = 0;
-            for (int i = 0; i < enemyAttacks.Length; i++)
-            {
-                EnemyAttackAction enemyAttackAction = enemyAttacks[i];
-                if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack && distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
-                {
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle)
-                    {
-                        maxScore += enemyAttackAction.attackScore;
-                    }
-                }
-            }
-
-            int randomValue = Random.Range(0, maxScore);
-            int temporaryScore = 0;
-
-            for (int i = 0; i < enemyAttacks.Length; i++)
-            {
-                EnemyAttackAction enemyAttackAction = enemyAttacks[i];
-                if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack && distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
-                {
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle && viewableAngle >= enemyAttackAction.minimumAttackAngle)
-                    {
-                        if (currentAttack != null)
-                            return;
-                        temporaryScore += enemyAttackAction.attackScore;
-                        if (temporaryScore > randomValue)
-                        {
-                            currentAttack = enemyAttackAction;
-                        }
-                    }
-                }
-            }
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
+            hasPerformedAttack = true;
         }
-        private void HandleRotationTowardsTarget(EnemyManager enemyManager)
+
+        private void RotateTowardsTargetWhilestAttacking(EnemyManager enemyManager)
         {
-            if (enemyManager.isPreformingAction)
+            if (enemyManager.canRotate && enemyManager.isInteracting)
             {
                 Vector3 direction = enemyManager.currentTarget.transform.position - transform.position;
                 direction.y = 0;
@@ -103,18 +50,7 @@ namespace Shifters
                 }
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
-            }
-            //rotate with pathfinding (navmesh)
-            else
-            {
-                Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity);
-                Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
-
-                enemyManager.navMeshAgent.enabled = true;
-                enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
-                enemyManager.enemyRigidbody.velocity = targetVelocity;
-                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed * Time.deltaTime);
+                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed * Time.deltaTime);
             }
         }
     }

@@ -11,11 +11,12 @@ namespace Shifters
         public CharacterStats currentTarget;
         public NavMeshAgent navMeshAgent;
         public float rotationSpeed = 15;
-        public float maximumAttackRange = 10f;
+        public float maximumAggroRadius = 10f;
         EnemyStats enemyStats;
         EnemyLocomotionManager enemyLocomotionManager;
         EnemyAnimatorManager enemyAnimatorManager;
         public bool isPreformingAction;
+        public bool isInteracting;
         public Rigidbody enemyRigidbody;
 
         [Header("AI setting")]
@@ -24,6 +25,7 @@ namespace Shifters
         public float minimumDetectionAngle = -50;
         public float currentRecoveryTime = 0;
         public float viewableAngle;
+        public int pendingCriticalDamage;
         private void Awake()
         {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
@@ -32,7 +34,6 @@ namespace Shifters
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             navMeshAgent.enabled = false;
             enemyRigidbody = GetComponent<Rigidbody>();
-
         }
         private void Start()
         {
@@ -44,6 +45,9 @@ namespace Shifters
         {
             HandleStateMachine();
             HandleRecoveryTimer();
+            isRotatingWithRootMotion = enemyAnimatorManager.animator.GetBool("isRotatingWithRootMotion");
+            isInteracting = enemyAnimatorManager.animator.GetBool("isInteracting");
+            canRotate = enemyAnimatorManager.animator.GetBool("canRotate");
         }
 
         private void FixedUpdate()

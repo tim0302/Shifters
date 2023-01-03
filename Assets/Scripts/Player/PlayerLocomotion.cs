@@ -97,7 +97,7 @@ namespace Shifters
 
                 if (inputHandler.moveAmount > 0)
                 {
-                    animatorHandler.PlayerTargetAnimation("Roll", true);
+                    animatorHandler.PlayTargetAnimation("Roll", true);
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;

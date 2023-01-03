@@ -9,7 +9,7 @@ namespace Shifters
         WeaponHolder weaponHolder;
         CharacterEffectManager characterEffectManager;
         DamageCollider damageCollider;
-
+        WeaponItem weaponItem;
         CharacterSoundFXManager characterSoundFXManager;
         private void Awake()
         {
@@ -17,6 +17,7 @@ namespace Shifters
             this.weaponHolder = weaponHolder;
             characterEffectManager = GetComponent<CharacterEffectManager>();
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
+            weaponItem = GetComponentInChildren<WeaponItem>();
         }
 
         private void Start()
@@ -34,6 +35,7 @@ namespace Shifters
         {
             damageCollider = weaponHolder.currentWeaponModel.GetComponentInChildren<DamageCollider>();
             characterEffectManager.weaponFX = weaponHolder.currentWeaponModel.GetComponentInChildren<WeaponFX>();
+            damageCollider.currentWeaponDamage = weaponItem.baseDamage;
         }
 
         public void OpenDamageCollider()
@@ -46,6 +48,16 @@ namespace Shifters
         {
             damageCollider.DisableDamageCollider();
         }
+
+        public void EnableSpecialDamage()
+        {
+            damageCollider.EnableSpecialDamage();
+        }
+        public void DisableSpecialDamage()
+        {
+            damageCollider.DisableSpecialDamage();
+        }
+
     }
 }
 

@@ -24,7 +24,7 @@ namespace Shifters
                 animatorHandler.animator.SetBool("canDoCombo", false);
                 if (lastAttack == weapon.Light_Attack_1)
                 {
-                    animatorHandler.PlayerTargetAnimation(weapon.Light_Attack_2, true);
+                    animatorHandler.PlayTargetAnimation(weapon.Light_Attack_2, true);
                     characterEffectManager.PlayWeaponFX(false);
 
                 }
@@ -34,7 +34,7 @@ namespace Shifters
         {
             if (!animatorHandler.animator.GetBool("isInteracting"))
             {
-                animatorHandler.PlayerTargetAnimation(weapon.Light_Attack_1, true);
+                animatorHandler.PlayTargetAnimation(weapon.Light_Attack_1, true);
                 characterEffectManager.PlayWeaponFX(false);
                 lastAttack = weapon.Light_Attack_1;
             }
@@ -42,7 +42,7 @@ namespace Shifters
             {
                 animatorHandler.animator.SetBool("canDoRollAttack", false);
                 characterEffectManager.PlayWeaponFX(false);
-                animatorHandler.PlayerTargetAnimation(weapon.Heavy_Attack, true);
+                animatorHandler.PlayTargetAnimation(weapon.Heavy_Attack, true);
             }
         }
 
@@ -50,7 +50,7 @@ namespace Shifters
         {
             if (!animatorHandler.animator.GetBool("isInteracting"))
             {
-                animatorHandler.PlayerTargetAnimation(weapon.Special_Attack, true);
+                animatorHandler.PlayTargetAnimation(weapon.Special_Attack, true);
                 characterEffectManager.PlayWeaponFX(true);
             }
         }

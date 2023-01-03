@@ -8,6 +8,9 @@ namespace Shifters
     public class WeaponItem : Item
     {
         public GameObject modelPrefab;
+        [Header("Damage")]
+        public int baseDamage;
+        public int damageMuiltiplier;
 
         [Header("Attack Animations")]
         public string Light_Attack_1;

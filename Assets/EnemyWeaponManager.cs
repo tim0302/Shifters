@@ -39,5 +39,15 @@ namespace Shifters
         {
             damageCollider.DisableDamageCollider();
         }
+
+
+        public void EnableEnemySpecialDamage()
+        {
+            damageCollider.EnableEnemySpecialDamage();
+        }
+        public void DisableEnemySpecialDamage()
+        {
+            damageCollider.DisableEnemySpecialDamage();
+        }
     }
 }

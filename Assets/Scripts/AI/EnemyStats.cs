@@ -8,7 +8,7 @@ namespace Shifters
     {
         Animator animator;
         AnimatorHandler animatorHandler;
-
+        EnemyBossManager enemyBossManager;
         CharacterSoundFXManager characterSoundFXManager;
         EnemyWeaponManager enemyWeaponManager;
         void Awake()
@@ -16,11 +16,13 @@ namespace Shifters
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
             animator = GetComponentInChildren<Animator>();
             enemyWeaponManager = GetComponent<EnemyWeaponManager>();
+            enemyBossManager = GetComponent<EnemyBossManager>();
+            maxHealth = SetMaxHealthFromHealthLevel();
+            currentHealth = maxHealth;
         }
         void Start()
         {
-            maxHealth = SetMaxHealthFromHealthLevel();
-            currentHealth = maxHealth;
+
         }
         private int SetMaxHealthFromHealthLevel()
         {
@@ -34,8 +36,11 @@ namespace Shifters
                 return;
 
             currentHealth -= damage;
+            enemyBossManager.UpdateBossHealthBar(currentHealth);
+
             animator.Play("Damage");
             enemyWeaponManager.CloseDamageCollider();
+            enemyWeaponManager.DisableEnemySpecialDamage();
             characterSoundFXManager.PlayRandomDamageSoundFX();
             if (currentHealth <= 0)
             {

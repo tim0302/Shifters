@@ -46,13 +46,14 @@ namespace Shifters
             image.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
 
             healthbar.SetCurrentHealth(currentHealth);
-            animatorHandler.PlayerTargetAnimation("Damage", true);
+            animatorHandler.PlayTargetAnimation("Damage", true);
             characterSoundFXManager.PlayRandomDamageSoundFX();
             weaponManager.CloseDamageCollider();
+            weaponManager.DisableSpecialDamage();
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                animatorHandler.PlayerTargetAnimation("Death", true);
+                animatorHandler.PlayTargetAnimation("Death", true);
                 characterSoundFXManager.PlayRandomDeathSound();
                 isDead = true;
             }

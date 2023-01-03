@@ -7,7 +7,10 @@ namespace Shifters
     public class DamageCollider : MonoBehaviour
     {
         Collider damageCollider;
-
+        bool isPlayerSpecialAttack = false;
+        int playerSpecialAttackDamageMultiplier = 10;
+        bool isEnemySpecialAttack = false;
+        int enemySpecialAttackDamageMultiplier = 2;
         public int currentWeaponDamage = 10;
         private void Awake()
         {
@@ -16,7 +19,7 @@ namespace Shifters
             damageCollider.isTrigger = true;
             damageCollider.enabled = false;
         }
-
+        //player
         public void EnableDamageCollider()
         {
             damageCollider.enabled = true;
@@ -27,6 +30,26 @@ namespace Shifters
             damageCollider.enabled = false;
         }
 
+        public void EnableSpecialDamage()
+        {
+            isPlayerSpecialAttack = true;
+        }
+
+        public void DisableSpecialDamage()
+        {
+            isPlayerSpecialAttack = false;
+        }
+        //enemy
+
+        public void EnableEnemySpecialDamage()
+        {
+            isEnemySpecialAttack = true;
+        }
+
+        public void DisableEnemySpecialDamage()
+        {
+            isEnemySpecialAttack = false;
+        }
         public void OnTriggerEnter(Collider collision)
         {
             if (collision.tag == "Player")
@@ -34,7 +57,7 @@ namespace Shifters
                 PlayerStats playerStats = collision.GetComponent<PlayerStats>();
                 if (playerStats != null)
                 {
-                    playerStats.TakeDamage(currentWeaponDamage);
+                    playerStats.TakeDamage(isEnemySpecialAttack ? currentWeaponDamage * enemySpecialAttackDamageMultiplier : currentWeaponDamage);
                 }
             }
 
@@ -43,7 +66,7 @@ namespace Shifters
                 EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
                 if (enemyStats != null)
                 {
-                    enemyStats.TakeDamage(currentWeaponDamage);
+                    enemyStats.TakeDamage(isPlayerSpecialAttack ? currentWeaponDamage * playerSpecialAttackDamageMultiplier : currentWeaponDamage);
                 }
             }
 
