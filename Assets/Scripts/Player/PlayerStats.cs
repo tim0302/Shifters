@@ -10,6 +10,7 @@ namespace Shifters
 
         public HealthBar healthbar;
         public Gradient gradient;
+        Animator animator;
         AnimatorHandler animatorHandler;
         CharacterSoundFXManager characterSoundFXManager;
         WeaponManager weaponManager;
@@ -18,6 +19,8 @@ namespace Shifters
         {
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            animator = GetComponentInChildren<Animator>();
+
             weaponManager = GetComponent<WeaponManager>();
             playerManager = GetComponent<PlayerManager>();
         }
@@ -46,6 +49,11 @@ namespace Shifters
             image.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
 
             healthbar.SetCurrentHealth(currentHealth);
+
+            if (!animator.GetBool("isInteracting"))
+            {
+                animator.Play("Damage");
+            }
             animatorHandler.PlayTargetAnimation("Damage", true);
             characterSoundFXManager.PlayRandomDamageSoundFX();
             weaponManager.CloseDamageCollider();

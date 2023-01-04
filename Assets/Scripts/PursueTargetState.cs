@@ -14,10 +14,10 @@ namespace Shifters
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
 
-            HandleRotationTowardsTarget(enemyManager);
 
-            if (viewableAngle > 65 || viewableAngle < -65)
+            if (viewableAngle > 45 || viewableAngle < -45)
                 return rotateTowardsTargetState;
+            HandleRotationTowardsTarget(enemyManager);
 
             if (enemyManager.isInteracting)
             {
@@ -50,7 +50,30 @@ namespace Shifters
 
         private void HandleRotationTowardsTarget(EnemyManager enemyManager)
         {
-            if (enemyManager.isPreformingAction)
+            // if (enemyManager.isPreformingAction)
+            // {
+            //     Vector3 direction = enemyManager.currentTarget.transform.position - transform.position;
+            //     direction.y = 0;
+            //     direction.Normalize();
+            //     if (direction == Vector3.zero)
+            //     {
+            //         direction = transform.forward;
+            //     }
+
+            //     Quaternion targetRotation = Quaternion.LookRotation(direction);
+            //     enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
+            // }
+            // //rotate with pathfinding (navmesh)
+            // else
+            // {
+            //     Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity);
+            //     Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
+
+            //     enemyManager.navMeshAgent.enabled = true;
+            //     enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
+            //     enemyManager.enemyRigidbody.velocity = targetVelocity;
+            //     enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
+            // }
             {
                 Vector3 direction = enemyManager.currentTarget.transform.position - transform.position;
                 direction.y = 0;
@@ -61,18 +84,7 @@ namespace Shifters
                 }
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed * Time.deltaTime);
-            }
-            //rotate with pathfinding (navmesh)
-            else
-            {
-                Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity);
-                Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
-
-                enemyManager.navMeshAgent.enabled = true;
-                enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
-                enemyManager.enemyRigidbody.velocity = targetVelocity;
-                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed * Time.deltaTime);
+                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
             }
         }
     }

@@ -13,7 +13,6 @@ namespace Shifters
         public bool hasPerformedAttack = false;
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
-            print("EnterAttack");
 
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
             RotateTowardsTargetWhilestAttacking(enemyManager);
@@ -34,6 +33,7 @@ namespace Shifters
         {
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
+            currentAttack = null;
             hasPerformedAttack = true;
         }
 
@@ -50,7 +50,7 @@ namespace Shifters
                 }
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed * Time.deltaTime);
+                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
             }
         }
     }

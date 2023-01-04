@@ -9,9 +9,11 @@ namespace Shifters
         public WeaponItem weapon;
         WeaponHolder weaponHolder;
         DamageCollider damageCollider;
+        CharacterSoundFXManager characterSoundFXManager;
 
         private void Awake()
         {
+            characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
             WeaponHolder weaponHolder = GetComponentInChildren<WeaponHolder>();
             this.weaponHolder = weaponHolder;
         }
@@ -32,6 +34,8 @@ namespace Shifters
 
         public void OpenDamageCollider()
         {
+            characterSoundFXManager.PlayRandomEnemyWeaponWhoosh();
+
             damageCollider.EnableDamageCollider();
         }
 

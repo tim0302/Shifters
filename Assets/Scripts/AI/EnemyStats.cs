@@ -37,8 +37,10 @@ namespace Shifters
 
             currentHealth -= damage;
             enemyBossManager.UpdateBossHealthBar(currentHealth);
-
-            animator.Play("Damage");
+            if (!animator.GetBool("isInteracting"))
+            {
+                animator.Play("Damage");
+            }
             enemyWeaponManager.CloseDamageCollider();
             enemyWeaponManager.DisableEnemySpecialDamage();
             characterSoundFXManager.PlayRandomDamageSoundFX();

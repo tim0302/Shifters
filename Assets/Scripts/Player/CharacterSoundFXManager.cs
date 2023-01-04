@@ -13,6 +13,12 @@ namespace Shifters
         private List<AudioClip> potentialDamageSounds;
         private AudioClip lastDamageSoundsPlayed;
 
+
+        [Header("Enemy Weapon Whooshes")]
+        public AudioClip[] weaponWhooshesSoundEnemy;
+        private List<AudioClip> potentialWeaponWhooshesEnemy;
+        private AudioClip lastWeaponWhooshEnemy;
+
         [Header("Weapon Whooshes")]
         // public AudioClip[]
         private List<AudioClip> potentialWeaponWhooshes;
@@ -71,6 +77,21 @@ namespace Shifters
             int randomValue = Random.Range(0, potentialWeaponWhooshes.Count);
             lastWeaponWhoosh = potentialWeaponWhooshes[randomValue];
             audioSource.PlayOneShot(potentialWeaponWhooshes[randomValue]);
+        }
+
+        public virtual void PlayRandomEnemyWeaponWhoosh()
+        {
+            potentialWeaponWhooshesEnemy = new List<AudioClip>();
+            foreach (var whooshSound in weaponWhooshesSoundEnemy)
+            {
+                if (whooshSound != lastWeaponWhooshEnemy)
+                {
+                    potentialWeaponWhooshesEnemy.Add(whooshSound);
+                }
+            }
+            int randomValue = Random.Range(0, potentialWeaponWhooshesEnemy.Count);
+            lastWeaponWhooshEnemy = potentialWeaponWhooshesEnemy[randomValue];
+            audioSource.PlayOneShot(potentialWeaponWhooshesEnemy[randomValue]);
         }
 
         public virtual void PlayRandomDeathSound()
