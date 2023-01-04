@@ -54,7 +54,6 @@ namespace Shifters
             {
                 animator.Play("Damage");
             }
-            animatorHandler.PlayTargetAnimation("Damage", true);
             characterSoundFXManager.PlayRandomDamageSoundFX();
             weaponManager.CloseDamageCollider();
             weaponManager.DisableSpecialDamage();
