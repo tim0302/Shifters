@@ -38,6 +38,7 @@ namespace Shifters
             canDoRollAttack = animator.GetBool("canDoRollAttack");
             inputHandler.TickInput(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
+            playerLocomotion.HandleHealing(delta);
             isInvulnerable = animator.GetBool("isInvulnerable");
         }
 
@@ -56,6 +57,7 @@ namespace Shifters
             inputHandler.rollFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
+            inputHandler.healFlag = false;
 
             float delta = Time.deltaTime;
             if (cameraHandler != null)

@@ -9,7 +9,7 @@ namespace Shifters
         [Header("Weapon FX")]
         public ParticleSystem normalWeaponTrail;
         public ParticleSystem fireTrail;
-
+        public ParticleSystem bloodTrail;
         public void PlayWeaponFX()
         {
             // normalWeaponTrail.Stop();

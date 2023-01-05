@@ -40,6 +40,7 @@ namespace Shifters
         public AudioClip rollSound;
         public AudioClip footStep;
         public AudioClip dragonRoar;
+        public AudioClip heal;
         AnimatorHandler animatorHandler;
         protected void Awake()
         {
@@ -116,11 +117,16 @@ namespace Shifters
             audioSource.PlayOneShot(rollSound, 0.35f);
         }
 
+        public virtual void PlayHeal()
+        {
+            audioSource.PlayOneShot(heal, 0.5f);
+        }
+
         public virtual void PlayFootStep()
         {
             if (!animatorHandler.animator.GetBool("isInteracting"))
             {
-                audioSource.PlayOneShot(footStep, 0.1f);
+                audioSource.PlayOneShot(footStep, 0.05f);
             }
         }
         public virtual void PlayFireSlashHitSound()

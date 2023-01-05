@@ -17,5 +17,5 @@ MonoBehaviour:
   recoveryTime: 5
   maximumAttackAngle: 35
   minimumAttackAngle: -35
-  minimumDistanceNeededToAttack: 5
+  minimumDistanceNeededToAttack: 3
   maximumDistanceNeededToAttack: 7

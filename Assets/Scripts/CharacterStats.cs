@@ -10,5 +10,7 @@ namespace Shifters
         public int maxHealth;
         public int currentHealth;
         public bool isDead;
+        public int stamina = 0;
+        public int maxStamina = 100;
     }
 }

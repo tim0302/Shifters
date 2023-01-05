@@ -11,9 +11,11 @@ namespace Shifters
         public float mouseX;
         public float mouseY;
         public bool b_Input;
+        public bool r_Input;
         public bool rb_Input;
         public bool rt_Input;
         public bool rollFlag;
+        public bool healFlag;
         public bool comboFlag;
 
         PlayerControls inputActions;
@@ -52,6 +54,16 @@ namespace Shifters
             MoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
+            HandleHealInput(delta);
+        }
+
+        public void HandleHealInput(float delta)
+        {
+            r_Input = inputActions.PlayerActions.Heal.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+            if (r_Input)
+            {
+                healFlag = true;
+            }
         }
         public void MoveInput(float delta)
         {

@@ -9,12 +9,16 @@ namespace Shifters
     {
 
         public HealthBar healthbar;
+        public ManaBar manaBar;
         public Gradient gradient;
         Animator animator;
         AnimatorHandler animatorHandler;
         CharacterSoundFXManager characterSoundFXManager;
         WeaponManager weaponManager;
         PlayerManager playerManager;
+        Image healthBar;
+        public int playerSpecialAttackDamageMultiplier = 1;
+
         void Awake()
         {
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
@@ -24,11 +28,33 @@ namespace Shifters
             weaponManager = GetComponent<WeaponManager>();
             playerManager = GetComponent<PlayerManager>();
         }
+
+        private void Update()
+        {
+            playerSpecialAttackDamageMultiplier = stamina / 10;
+        }
         void Start()
         {
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
             healthbar.SetMaxHealth(maxHealth);
+            manaBar.SetMaxMana(this.maxStamina);
+            var barFill = GameObject.Find("Health Bar Fill");
+            healthBar = barFill.GetComponent<Image>();
+        }
+        public void GainStaminaByDamage(int damage)
+        {
+            if ((stamina + damage / 2) <= maxStamina)
+            {
+                stamina += damage / 2;
+                manaBar.SetCurrentMana(stamina);
+            }
+            else
+            {
+                stamina = maxStamina;
+                manaBar.SetCurrentMana(stamina);
+
+            }
         }
         private int SetMaxHealthFromHealthLevel()
         {
@@ -36,27 +62,75 @@ namespace Shifters
             return maxHealth;
         }
 
+        public void Heal()
+        {
+            if (!animator.GetBool("isInteracting") && !animator.GetBool("canDoRollAttack"))
+            {
+                animatorHandler.PlayTargetAnimation("Heal", true);
+                if (stamina == 0) { return; }
+
+                if ((currentHealth + (stamina * maxHealth) / 600) <= maxHealth)
+                {
+                    currentHealth += (stamina * maxHealth) / 600;
+                    healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+
+                }
+                else
+                {
+                    currentHealth = maxHealth;
+                    healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+                }
+
+                healthbar.SetCurrentHealth(currentHealth);
+                stamina = 0;
+                manaBar.SetCurrentMana(stamina);
+
+            }
+        }
+
         public void TakeDamage(int damage)
         {
+
+
             if (playerManager.isInvulnerable)
                 return;
+
+            if ((stamina + damage / 4) <= maxStamina)
+            {
+                stamina += damage / 4;
+                manaBar.SetCurrentMana(stamina);
+            }
+            else
+            {
+                stamina = maxStamina;
+                manaBar.SetCurrentMana(stamina);
+
+            }
+
+            characterSoundFXManager.PlayRandomDamageSoundFX();
+            weaponManager.CloseDamageCollider();
+            weaponManager.DisableSpecialDamage();
+
             if (isDead)
                 return;
             currentHealth -= damage;
             //change color
-            var barFill = GameObject.Find("Health Bar Fill");
-            Image image = barFill.GetComponent<Image>();
-            image.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+            healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
 
             healthbar.SetCurrentHealth(currentHealth);
 
             if (!animator.GetBool("isInteracting"))
             {
-                animator.Play("Damage");
+                if (damage >= 50)
+                {
+                    animatorHandler.PlayTargetAnimation("Stunned", true);
+                }
+                else
+                {
+                    animator.Play("Damage");
+                }
             }
-            characterSoundFXManager.PlayRandomDamageSoundFX();
-            weaponManager.CloseDamageCollider();
-            weaponManager.DisableSpecialDamage();
+
             if (currentHealth <= 0)
             {
                 currentHealth = 0;

@@ -9,6 +9,7 @@ namespace Shifters
         Transform cameraObject;
         InputHandler inputHandler;
         Vector3 moveDirection;
+        PlayerStats playerStats;
 
         [HideInInspector]
         public Transform myTransform;
@@ -31,6 +32,7 @@ namespace Shifters
             playerManager = GetComponent<PlayerManager>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
+            playerStats = GetComponent<PlayerStats>();
             cameraObject = Camera.main.transform;
             myTransform = transform;
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
@@ -80,6 +82,13 @@ namespace Shifters
             if (animatorHandler.canRotate)
             {
                 HandleRotation(delta);
+            }
+        }
+        public void HandleHealing(float delta)
+        {
+            if (inputHandler.healFlag)
+            {
+                playerStats.Heal();
             }
         }
 

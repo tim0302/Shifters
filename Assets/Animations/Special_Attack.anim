@@ -53364,13 +53364,6 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.6666667
-    functionName: EnableEnemySpecialDamage
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.6666667
     functionName: EnableSpecialDamage
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -53386,13 +53379,6 @@ AnimationClip:
     messageOptions: 0
   - time: 0.8333333
     functionName: CloseDamageCollider
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.8333333
-    functionName: DisableEnemySpecialDamage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -11,8 +11,10 @@ namespace Shifters
         EnemyBossManager enemyBossManager;
         CharacterSoundFXManager characterSoundFXManager;
         EnemyWeaponManager enemyWeaponManager;
+        PlayerStats playerStats;
         void Awake()
         {
+            playerStats = FindObjectOfType<PlayerStats>();
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
             animator = GetComponentInChildren<Animator>();
             enemyWeaponManager = GetComponent<EnemyWeaponManager>();
@@ -20,10 +22,7 @@ namespace Shifters
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
         }
-        void Start()
-        {
 
-        }
         private int SetMaxHealthFromHealthLevel()
         {
             maxHealth = healthLevel * 10;
@@ -34,6 +33,7 @@ namespace Shifters
         {
             if (isDead)
                 return;
+            playerStats.GainStaminaByDamage(damage);
 
             currentHealth -= damage;
             enemyBossManager.UpdateBossHealthBar(currentHealth);

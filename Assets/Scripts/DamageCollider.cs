@@ -8,16 +8,18 @@ namespace Shifters
     {
         Collider damageCollider;
         bool isPlayerSpecialAttack = false;
-        int playerSpecialAttackDamageMultiplier = 10;
         bool isEnemySpecialAttack = false;
         int enemySpecialAttackDamageMultiplier = 2;
         public int currentWeaponDamage = 10;
+        PlayerStats playerStats;
+
         private void Awake()
         {
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
             damageCollider.enabled = false;
+            playerStats = FindObjectOfType<PlayerStats>();
         }
         //player
         public void EnableDamageCollider()
@@ -66,7 +68,12 @@ namespace Shifters
                 EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
                 if (enemyStats != null)
                 {
-                    enemyStats.TakeDamage(isPlayerSpecialAttack ? currentWeaponDamage * playerSpecialAttackDamageMultiplier : currentWeaponDamage);
+                    enemyStats.TakeDamage(isPlayerSpecialAttack ? currentWeaponDamage * playerStats.playerSpecialAttackDamageMultiplier : currentWeaponDamage);
+                    if (isPlayerSpecialAttack)
+                    {
+                        playerStats.stamina = 0;
+                        playerStats.manaBar.SetCurrentMana(0);
+                    }
                 }
             }
 
