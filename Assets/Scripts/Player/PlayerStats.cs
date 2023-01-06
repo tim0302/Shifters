@@ -14,8 +14,9 @@ namespace Shifters
         Animator animator;
         AnimatorHandler animatorHandler;
         CharacterSoundFXManager characterSoundFXManager;
+        CharacterEffectManager characterEffectManager;
         WeaponManager weaponManager;
-        PlayerManager playerManager;
+        public PlayerManager playerManager;
         Image healthBar;
         public int playerSpecialAttackDamageMultiplier = 1;
 
@@ -27,6 +28,7 @@ namespace Shifters
 
             weaponManager = GetComponent<WeaponManager>();
             playerManager = GetComponent<PlayerManager>();
+            characterEffectManager = GetComponent<CharacterEffectManager>();
         }
 
         private void Update()
@@ -66,19 +68,24 @@ namespace Shifters
         {
             if (!animator.GetBool("isInteracting") && !animator.GetBool("canDoRollAttack"))
             {
-                animatorHandler.PlayTargetAnimation("Heal", true);
+                // animatorHandler.PlayTargetAnimation("Heal", true);
+
                 if (stamina == 0) { return; }
 
                 if ((currentHealth + (stamina * maxHealth) / 600) <= maxHealth)
                 {
                     currentHealth += (stamina * maxHealth) / 600;
                     healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+                    characterSoundFXManager.PlayHeal();
+                    characterEffectManager.PlayHealFX(playerManager.transform.position);
 
                 }
                 else
                 {
                     currentHealth = maxHealth;
                     healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+                    characterSoundFXManager.PlayHeal();
+                    characterEffectManager.PlayHealFX(playerManager.transform.position);
                 }
 
                 healthbar.SetCurrentHealth(currentHealth);

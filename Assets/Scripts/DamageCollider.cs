@@ -12,6 +12,7 @@ namespace Shifters
         int enemySpecialAttackDamageMultiplier = 2;
         public int currentWeaponDamage = 10;
         PlayerStats playerStats;
+        PlayerManager playerManager;
 
         private void Awake()
         {
@@ -56,18 +57,29 @@ namespace Shifters
         {
             if (collision.tag == "Player")
             {
+                CharacterEffectManager playerCharacterEffectManager = collision.GetComponent<CharacterEffectManager>();
+
                 PlayerStats playerStats = collision.GetComponent<PlayerStats>();
                 if (playerStats != null)
                 {
                     playerStats.TakeDamage(isEnemySpecialAttack ? currentWeaponDamage * enemySpecialAttackDamageMultiplier : currentWeaponDamage);
+                    Vector3 contactPoint = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    if (!playerStats.playerManager.isInvulnerable)
+                    {
+                        playerCharacterEffectManager.PlayOnHitFX(contactPoint);
+                    }
                 }
             }
 
             if (collision.tag == "Enemy")
             {
+                CharacterEffectManager enemyCharacterEffectManager = collision.GetComponent<CharacterEffectManager>();
+
                 EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
                 if (enemyStats != null)
                 {
+                    Vector3 contactPoint = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    enemyCharacterEffectManager.PlayOnHitFX(contactPoint);
                     enemyStats.TakeDamage(isPlayerSpecialAttack ? currentWeaponDamage * playerStats.playerSpecialAttackDamageMultiplier : currentWeaponDamage);
                     if (isPlayerSpecialAttack)
                     {
@@ -76,8 +88,6 @@ namespace Shifters
                     }
                 }
             }
-
-
         }
     }
 }

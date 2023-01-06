@@ -2494,6 +2494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e77365eca4e33141a59f8205cc0ba97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitFX: {fileID: 3291244538907713110, guid: 76e1d37a3648efb4995d89130c99f0ee, type: 3}
+  healFX: {fileID: 0}
   weaponFX: {fileID: 0}
 --- !u!1001 &115321147
 PrefabInstance:
@@ -27292,6 +27294,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6238104059443216276, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6406495852049713965, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_Time
       value: 5
@@ -27367,6 +27373,22 @@ PrefabInstance:
     - target: {fileID: 6916118640694888054, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2957
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711182809281340383, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711182809281340383, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711182809281340383, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8711182809281340383, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
@@ -31611,6 +31633,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e77365eca4e33141a59f8205cc0ba97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitFX: {fileID: 0}
+  healFX: {fileID: 0}
   weaponFX: {fileID: 0}
 --- !u!114 &1679052105
 MonoBehaviour:
@@ -35980,6 +36004,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  playerManager: {fileID: 0}
   playerSpecialAttackDamageMultiplier: 1
 --- !u!114 &1920430859
 MonoBehaviour:
@@ -36005,6 +36030,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e77365eca4e33141a59f8205cc0ba97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitFX: {fileID: 3291244538907713110, guid: 76e1d37a3648efb4995d89130c99f0ee, type: 3}
+  healFX: {fileID: 8434842591292709995, guid: 12c1bc4b21c3ca24bb5ed6e2758da356, type: 3}
   weaponFX: {fileID: 0}
 --- !u!82 &1920430861
 AudioSource:
