@@ -33,7 +33,7 @@ namespace Shifters
         {
             if (isDead)
                 return;
-            playerStats.GainStaminaByDamage(damage);
+            // playerStats.GainStaminaByDamage(damage);
 
             currentHealth -= damage;
             enemyBossManager.UpdateBossHealthBar(currentHealth);

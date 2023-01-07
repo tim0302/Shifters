@@ -151,6 +151,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e14f328-def0-4a6f-8e24-a26182d88268"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""25ec49a4-8dba-4f64-a54e-2a99edc8346a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""RB"",
                     ""type"": ""Button"",
                     ""id"": ""456bbfb2-cdf9-4470-99b2-a198d0b20edb"",
@@ -255,6 +273,50 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Heal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d218c593-aed9-482f-87c1-f3618b2f3c4c"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19529e2b-2780-4a4b-82da-002eb1ecf650"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5510670c-7092-40e7-98fc-7f02a754598f"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0711e8eb-9619-459e-920b-47f74642cab8"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -268,6 +330,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Player Actions
         m_PlayerActions = asset.FindActionMap("Player Actions", throwIfNotFound: true);
         m_PlayerActions_Roll = m_PlayerActions.FindAction("Roll", throwIfNotFound: true);
+        m_PlayerActions_Restart = m_PlayerActions.FindAction("Restart", throwIfNotFound: true);
+        m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
         m_PlayerActions_RB = m_PlayerActions.FindAction("RB", throwIfNotFound: true);
         m_PlayerActions_RT = m_PlayerActions.FindAction("RT", throwIfNotFound: true);
         m_PlayerActions_Heal = m_PlayerActions.FindAction("Heal", throwIfNotFound: true);
@@ -372,6 +436,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerActions;
     private IPlayerActionsActions m_PlayerActionsActionsCallbackInterface;
     private readonly InputAction m_PlayerActions_Roll;
+    private readonly InputAction m_PlayerActions_Restart;
+    private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_RB;
     private readonly InputAction m_PlayerActions_RT;
     private readonly InputAction m_PlayerActions_Heal;
@@ -380,6 +446,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         private @PlayerControls m_Wrapper;
         public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Roll => m_Wrapper.m_PlayerActions_Roll;
+        public InputAction @Restart => m_Wrapper.m_PlayerActions_Restart;
+        public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
         public InputAction @RB => m_Wrapper.m_PlayerActions_RB;
         public InputAction @RT => m_Wrapper.m_PlayerActions_RT;
         public InputAction @Heal => m_Wrapper.m_PlayerActions_Heal;
@@ -395,6 +463,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Roll.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRoll;
                 @Roll.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRoll;
                 @Roll.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRoll;
+                @Restart.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRestart;
+                @LockOn.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
+                @LockOn.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
+                @LockOn.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
                 @RB.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRB;
                 @RB.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRB;
                 @RB.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRB;
@@ -411,6 +485,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Roll.started += instance.OnRoll;
                 @Roll.performed += instance.OnRoll;
                 @Roll.canceled += instance.OnRoll;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
+                @LockOn.started += instance.OnLockOn;
+                @LockOn.performed += instance.OnLockOn;
+                @LockOn.canceled += instance.OnLockOn;
                 @RB.started += instance.OnRB;
                 @RB.performed += instance.OnRB;
                 @RB.canceled += instance.OnRB;
@@ -432,6 +512,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IPlayerActionsActions
     {
         void OnRoll(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
+        void OnLockOn(InputAction.CallbackContext context);
         void OnRB(InputAction.CallbackContext context);
         void OnRT(InputAction.CallbackContext context);
         void OnHeal(InputAction.CallbackContext context);

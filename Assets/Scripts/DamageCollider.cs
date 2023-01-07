@@ -80,7 +80,9 @@ namespace Shifters
                 {
                     Vector3 contactPoint = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
                     enemyCharacterEffectManager.PlayOnHitFX(contactPoint);
-                    enemyStats.TakeDamage(isPlayerSpecialAttack ? currentWeaponDamage * playerStats.playerSpecialAttackDamageMultiplier : currentWeaponDamage);
+                    int incomingDamage = isPlayerSpecialAttack ? currentWeaponDamage * playerStats.playerSpecialAttackDamageMultiplier : currentWeaponDamage;
+                    enemyStats.TakeDamage(incomingDamage);
+                    playerStats.GainStaminaByDamage(incomingDamage);
                     if (isPlayerSpecialAttack)
                     {
                         playerStats.stamina = 0;

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 namespace Shifters
 {
     public class InputHandler : MonoBehaviour
@@ -17,7 +19,9 @@ namespace Shifters
         public bool rollFlag;
         public bool healFlag;
         public bool comboFlag;
-
+        public bool lockOnInput;
+        public bool lockOnFlag;
+        public bool restartInput;
         PlayerControls inputActions;
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
@@ -25,12 +29,15 @@ namespace Shifters
         CameraHandler cameraHandler;
         Vector2 movementInput;
         Vector2 cameraInput;
+        UIManager uIManager;
 
         private void Awake()
         {
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            cameraHandler = FindObjectOfType<CameraHandler>();
+            uIManager = GetComponent<UIManager>();
         }
         public void OnEnable()
         {
@@ -39,6 +46,7 @@ namespace Shifters
                 inputActions = new PlayerControls();
                 inputActions.PlayerMovement.Movement.performed += inputActions => movementInput = inputActions.ReadValue<Vector2>();
                 inputActions.PlayerMovement.Camera.performed += inputActions => cameraInput = inputActions.ReadValue<Vector2>();
+                inputActions.PlayerActions.LockOn.performed += i => lockOnInput = true;
             }
 
             inputActions.Enable();
@@ -51,12 +59,47 @@ namespace Shifters
 
         public void TickInput(float delta)
         {
-            MoveInput(delta);
+            HandleMoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
             HandleHealInput(delta);
+            HandleLockOnInput();
+            HandleRestartInput();
         }
 
+        private void HandleRestartInput()
+        {
+            restartInput = inputActions.PlayerActions.Restart.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+            if (restartInput == true)
+            {
+                SceneManager.LoadScene("Scene1");
+            }
+        }
+
+        private void HandleLockOnInput()
+        {
+            if (lockOnInput && lockOnFlag == false)
+            {
+                cameraHandler.ClearLockOnTargets();
+                lockOnInput = false;
+                cameraHandler.HandleLockOn();
+                if (cameraHandler.nearestLockOnTarget != null)
+                {
+                    cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
+                    lockOnFlag = true;
+                    uIManager.TurnOnLockOnIndicator();
+                }
+            }
+            else if (lockOnInput && lockOnFlag)
+            {
+                lockOnInput = false;
+                lockOnFlag = false;
+                cameraHandler.ClearLockOnTargets();
+                uIManager.TurnOffLockOnIndicator();
+            }
+
+            cameraHandler.SetCameraHeight();
+        }
         public void HandleHealInput(float delta)
         {
             r_Input = inputActions.PlayerActions.Heal.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
@@ -65,7 +108,7 @@ namespace Shifters
                 healFlag = true;
             }
         }
-        public void MoveInput(float delta)
+        public void HandleMoveInput(float delta)
         {
             horizontal = movementInput.x;
             vertical = movementInput.y;

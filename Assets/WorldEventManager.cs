@@ -31,6 +31,7 @@ namespace Shifters
             if (bossHealthBar.bossName.text == "The First Knight")
             {
                 audioSource.PlayOneShot(FirstKnightBGM, 0.3f);
+                audioSource.loop = true;
             }
             //active block
         }

@@ -8,5 +8,6 @@ namespace Shifters
     {
         public bool isRotatingWithRootMotion;
         public bool canRotate;
+        public Transform lockOnTransform;
     }
 }
