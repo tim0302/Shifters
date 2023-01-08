@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Shifters
@@ -12,6 +13,7 @@ namespace Shifters
         public ManaBar manaBar;
         public Gradient gradient;
         Animator animator;
+        Animator deathAnimator;
         AnimatorHandler animatorHandler;
         CharacterSoundFXManager characterSoundFXManager;
         CharacterEffectManager characterEffectManager;
@@ -29,6 +31,7 @@ namespace Shifters
             weaponManager = GetComponent<WeaponManager>();
             playerManager = GetComponent<PlayerManager>();
             characterEffectManager = GetComponent<CharacterEffectManager>();
+            deathAnimator = GameObject.Find("YouDied").GetComponent<Animator>();
         }
 
         private void Update()
@@ -142,6 +145,7 @@ namespace Shifters
             {
                 currentHealth = 0;
                 animatorHandler.PlayTargetAnimation("Death", true);
+                deathAnimator.Play("DiedFadeIn");
                 characterSoundFXManager.PlayRandomDeathSound();
                 isDead = true;
             }
