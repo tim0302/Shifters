@@ -15,7 +15,7 @@ namespace Shifters
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
 
 
-            if (viewableAngle > 45 || viewableAngle < -45)
+            if (viewableAngle > 65 || viewableAngle < -65)
                 return rotateTowardsTargetState;
             HandleRotationTowardsTarget(enemyManager);
 

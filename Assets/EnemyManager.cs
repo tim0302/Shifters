@@ -19,13 +19,15 @@ namespace Shifters
         public bool isInteracting;
         public Rigidbody enemyRigidbody;
 
-        [Header("AI setting")]
+        [Header("AI settings")]
         public float detectionRadius = 20;
         public float maximumDetectionAngle = 50;
         public float minimumDetectionAngle = -50;
         public float currentRecoveryTime = 0;
         public float viewableAngle;
         public int pendingCriticalDamage;
+        public bool isInvulnerable;
+        public bool isPhaseShifting;
         private void Awake()
         {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
@@ -48,6 +50,8 @@ namespace Shifters
             isRotatingWithRootMotion = enemyAnimatorManager.animator.GetBool("isRotatingWithRootMotion");
             isInteracting = enemyAnimatorManager.animator.GetBool("isInteracting");
             canRotate = enemyAnimatorManager.animator.GetBool("canRotate");
+            isPhaseShifting = enemyAnimatorManager.animator.GetBool("isPhaseShifting");
+            isInvulnerable = enemyAnimatorManager.animator.GetBool("isInvulnerable");
         }
 
         private void FixedUpdate()

@@ -11,12 +11,14 @@ namespace Shifters
         DamageCollider damageCollider;
         CharacterSoundFXManager characterSoundFXManager;
         CharacterEffectManager characterEffectManager;
+        EnemyBossManager enemyBossManager;
         private void Awake()
         {
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
             WeaponHolder weaponHolder = GetComponentInChildren<WeaponHolder>();
             characterEffectManager = GetComponent<CharacterEffectManager>();
             this.weaponHolder = weaponHolder;
+            enemyBossManager = GetComponent<EnemyBossManager>();
         }
         private void Start()
         {
@@ -37,7 +39,11 @@ namespace Shifters
         public void OpenDamageCollider()
         {
             characterSoundFXManager.PlayRandomEnemyWeaponWhoosh();
-            // characterEffectManager.PlayWeaponFX(false);
+            if (enemyBossManager.isSecondPhase)
+            {
+                characterSoundFXManager.PlayFireSlash();
+                characterEffectManager.PlayWeaponFX(true);
+            }
             damageCollider.EnableDamageCollider();
         }
 

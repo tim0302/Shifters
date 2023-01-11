@@ -2414,7 +2414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b9b14f59ed2e6458ccd0048d4d82a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 150
+  healthLevel: 100
   maxHealth: 0
   currentHealth: 0
   isDead: 0
@@ -2451,12 +2451,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 03fe43d0ff8fb2c41a0407315499b09e, type: 3}
   - {fileID: 8300000, guid: c8cdf84fd483f6249ab2f23f5e2b366f, type: 3}
   endGame: {fileID: 0}
-  flameSlash: {fileID: 0}
-  flameSlashHitSound: []
+  fireSlash:
+  - {fileID: 8300000, guid: fa942bbc07513d54e8a43f89466b6402, type: 3}
+  - {fileID: 8300000, guid: f0bcdd484a3448841b997ecf3a78a6ad, type: 3}
+  - {fileID: 8300000, guid: 1df1bd890d81d4f49bbe06f7b19000a4, type: 3}
+  - {fileID: 8300000, guid: 2e0ef8138b4d15c4fa2a5f650ba56306, type: 3}
+  - {fileID: 8300000, guid: 04d9c31715e48014db5ffe344809e8d2, type: 3}
+  flameSlashHitSound:
+  - {fileID: 0}
   rollSound: {fileID: 0}
   footStep: {fileID: 8300000, guid: e805829489a7902408450327309ffa0d, type: 3}
   dragonRoar: {fileID: 0}
   heal: {fileID: 0}
+  bladeParrySound: {fileID: 8300000, guid: fca31bd0c3e22e04ba32b83852073a95, type: 3}
 --- !u!114 &114505965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2486,6 +2493,8 @@ MonoBehaviour:
   currentRecoveryTime: 0
   viewableAngle: 0
   pendingCriticalDamage: 0
+  isInvulnerable: 0
+  isPhaseShifting: 0
 --- !u!114 &114505966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2550,6 +2559,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossName: The First Knight
+  isSecondPhase: 0
+  phaseChangeFX: {fileID: 4792680382119220239, guid: d381137911a99034f822b715d9ff32d8, type: 3}
 --- !u!114 &114505976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2563,6 +2574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+  effectTransform: {fileID: 313020350}
 --- !u!114 &114505978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8073,6 +8085,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4666290504453044, guid: 529b63b3c6d894747b009dcccb171efa, type: 3}
   m_PrefabInstance: {fileID: 311193553}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &313020350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 313020352}
+  - component: {fileID: 313020351}
+  m_Layer: 9
+  m_Name: Effect Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &313020351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313020350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2737a709e4493494894fa82bb55345f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FXtransform: {x: 0, y: 0, z: 0}
+--- !u!4 &313020352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313020350}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.071, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 114505969}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &313294011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9451,7 +9508,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1758982979}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &381516550
 MonoBehaviour:
@@ -9465,7 +9522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15384d9853b5ba64aa1d530fe716f3bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 2115622421}
+  combatStanceState: {fileID: 1823853453}
   currentAttack: {fileID: 0}
   rotateTowardsTargetState: {fileID: 1769683542}
   pursueTargetState: {fileID: 1085328388}
@@ -21575,7 +21632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff88b12827967a4cb7c58db692a7ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 2115622421}
+  combatStanceState: {fileID: 1823853453}
   rotateTowardsTargetState: {fileID: 1769683542}
 --- !u!1 &1087993649
 GameObject:
@@ -25687,7 +25744,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.525024, y: 0}
+  m_AnchoredPosition: {x: -8.5251465, y: 0}
   m_SizeDelta: {x: 78.427, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1338608701
@@ -27719,7 +27776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 435448, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 435448, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_LocalScale.x
@@ -27816,7 +27873,39 @@ PrefabInstance:
     - target: {fileID: 9589344, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 866d3091bfc514047b19a569529f206f, type: 2}
+      objectReference: {fileID: 9100000, guid: 15dc7726fdff8fb4480571e448999f40, type: 2}
+    - target: {fileID: 1299983010476779918, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1503227551542761438, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2065205639659322567, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2065205639659322567, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2065205639659322567, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2065205639659322567, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.007
+      objectReference: {fileID: 0}
+    - target: {fileID: 2065205639659322567, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.468
+      objectReference: {fileID: 0}
+    - target: {fileID: 2065205639659322567, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0101
+      objectReference: {fileID: 0}
     - target: {fileID: 3500998514354033280, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
@@ -27824,6 +27913,14 @@ PrefabInstance:
     - target: {fileID: 3500998514354033280, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.058
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785434453862137465, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4068958515128177356, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4763837112590979158, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: looping
@@ -27952,6 +28049,14 @@ PrefabInstance:
     - target: {fileID: 6916118640694888054, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2957
+      objectReference: {fileID: 0}
+    - target: {fileID: 8070943155625610042, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443150543238733362, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8711182809023168625, guid: b2d86ece2910c424eb07c39d2772e780, type: 3}
       propertyPath: m_LocalScale.x
@@ -31855,6 +31960,7 @@ MonoBehaviour:
   bossHealthBar: {fileID: 0}
   boss: {fileID: 0}
   FirstKnightBGM: {fileID: 8300000, guid: 685b320787bf27149814143d661d3108, type: 3}
+  FirstKnightPhaseShiftBGM: {fileID: 8300000, guid: 3a86afd4124b04e47a359f57a3d08cfd, type: 3}
   bossFightIsActive: 0
   bossHasBeenAwakened: 0
   bossHasBeenDefeated: 0
@@ -32255,7 +32361,12 @@ MonoBehaviour:
   weaponWhooshesSoundEnemy: []
   deathSounds: []
   endGame: {fileID: 0}
-  flameSlash: {fileID: 8300000, guid: fa942bbc07513d54e8a43f89466b6402, type: 3}
+  fireSlash:
+  - {fileID: 8300000, guid: fa942bbc07513d54e8a43f89466b6402, type: 3}
+  - {fileID: 8300000, guid: f0bcdd484a3448841b997ecf3a78a6ad, type: 3}
+  - {fileID: 8300000, guid: 1df1bd890d81d4f49bbe06f7b19000a4, type: 3}
+  - {fileID: 8300000, guid: 2e0ef8138b4d15c4fa2a5f650ba56306, type: 3}
+  - {fileID: 8300000, guid: 04d9c31715e48014db5ffe344809e8d2, type: 3}
   flameSlashHitSound:
   - {fileID: 8300000, guid: 414b6a075ff02f64a8b212029f89ba49, type: 3}
   - {fileID: 8300000, guid: 703eba2399f825949ae49abd9a7f49ba, type: 3}
@@ -32264,6 +32375,7 @@ MonoBehaviour:
   footStep: {fileID: 8300000, guid: 8d421786203116243b09fb2e9d86c1c2, type: 3}
   dragonRoar: {fileID: 8300000, guid: e3fdb15e9209d7f43b213082a477a3e8, type: 3}
   heal: {fileID: 8300000, guid: 6cafa042b1d0b73448e32639ab97207a, type: 3}
+  bladeParrySound: {fileID: 0}
 --- !u!82 &1679052106
 AudioSource:
   m_ObjectHideFlags: 0
@@ -34033,9 +34145,9 @@ Transform:
   m_Children:
   - {fileID: 357556149}
   - {fileID: 1085328387}
-  - {fileID: 2115622420}
   - {fileID: 381516549}
   - {fileID: 1769683543}
+  - {fileID: 1823853452}
   m_Father: {fileID: 114505969}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -34068,7 +34180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7abd0b3c83a2869469b22045b82c9b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 2115622421}
+  combatStanceState: {fileID: 1823853453}
 --- !u!4 &1769683543
 Transform:
   m_ObjectHideFlags: 0
@@ -34082,7 +34194,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1758982979}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1770367564 stripped
 Transform:
@@ -35002,6 +35114,73 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 408248, guid: 20980883898f4704f86e6d74b75682ef, type: 3}
   m_PrefabInstance: {fileID: 1823309817}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1823853451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823853452}
+  - component: {fileID: 1823853453}
+  m_Layer: 9
+  m_Name: Boss Combat Stance State
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1823853452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823853451}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1758982979}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1823853453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823853451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad36d804539168448b3155496380341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackState: {fileID: 381516550}
+  enemyAttacks:
+  - {fileID: 11400000, guid: 46a503ae3cfc7384ea09288c5aa31719, type: 2}
+  - {fileID: 11400000, guid: 0951bb2aca0f7b5488cafa1e59e583a5, type: 2}
+  - {fileID: 11400000, guid: cf25be56cc332ed49b9ac7f72eaad26c, type: 2}
+  - {fileID: 11400000, guid: 3f07f9a21584b12449c1a4b4bc712eed, type: 2}
+  - {fileID: 11400000, guid: 88083e7e333222041a4c1206b8101e5d, type: 2}
+  - {fileID: 11400000, guid: d79395fa5f8a1a345a1cbd64e5a4e712, type: 2}
+  - {fileID: 11400000, guid: c460d93b5f22d0546a8dd76ad3777243, type: 2}
+  - {fileID: 11400000, guid: e0100d18688f3f64ca015808b34c08ea, type: 2}
+  - {fileID: 11400000, guid: 626e02d692db7514da0fa934c8e5deae, type: 2}
+  pursueTargetState: {fileID: 1085328388}
+  rotateTowardsTargetState: {fileID: 1769683542}
+  hasPhaseShifted: 0
+  secondPhaseAttacks:
+  - {fileID: 11400000, guid: f6331fc8ca86e0a459699f226ae849c5, type: 2}
+  - {fileID: 11400000, guid: 6e4b0d6f17bf3d34c8fdaaf3c631a551, type: 2}
+  - {fileID: 11400000, guid: d32a0b380182a284285c13c4290a04ec, type: 2}
+  - {fileID: 11400000, guid: 40ddf1b8e8eef5b488b1e87d681e71a0, type: 2}
+  - {fileID: 11400000, guid: bf2ddae624e0daa4b9da9d44d5bde148, type: 2}
+  - {fileID: 11400000, guid: 286dd87240ee95942b3c6d246005067a, type: 2}
+  - {fileID: 11400000, guid: d79395fa5f8a1a345a1cbd64e5a4e712, type: 2}
+  - {fileID: 11400000, guid: e0100d18688f3f64ca015808b34c08ea, type: 2}
 --- !u!1001 &1825126479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36446,7 +36625,7 @@ Transform:
   - {fileID: 529944860}
   - {fileID: 338216990}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1920430849
 Rigidbody:
@@ -36771,12 +36950,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 03fe43d0ff8fb2c41a0407315499b09e, type: 3}
   - {fileID: 8300000, guid: c8cdf84fd483f6249ab2f23f5e2b366f, type: 3}
   endGame: {fileID: 8300000, guid: fd03c810e9e877e4bb055dc8c7bc4017, type: 3}
-  flameSlash: {fileID: 0}
+  fireSlash: []
   flameSlashHitSound: []
   rollSound: {fileID: 0}
   footStep: {fileID: 0}
   dragonRoar: {fileID: 0}
   heal: {fileID: 8300000, guid: 7af6689dbbb7f9047aade83bb5488763, type: 3}
+  bladeParrySound: {fileID: 0}
 --- !u!114 &1920430863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39683,64 +39863,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 475842, guid: 576b6d70e3da01b489b5b99e260ddc93, type: 3}
   m_PrefabInstance: {fileID: 2105835352}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2115622419
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2115622420}
-  - component: {fileID: 2115622421}
-  m_Layer: 9
-  m_Name: Combat Stance State
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2115622420
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2115622419}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1758982979}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2115622421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2115622419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e40036a7a4ca7a4488715dc8d325776, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackState: {fileID: 381516550}
-  enemyAttacks:
-  - {fileID: 11400000, guid: 46a503ae3cfc7384ea09288c5aa31719, type: 2}
-  - {fileID: 11400000, guid: 0951bb2aca0f7b5488cafa1e59e583a5, type: 2}
-  - {fileID: 11400000, guid: cf25be56cc332ed49b9ac7f72eaad26c, type: 2}
-  - {fileID: 11400000, guid: 3f07f9a21584b12449c1a4b4bc712eed, type: 2}
-  - {fileID: 11400000, guid: 766a393ab263fe64abd8a0ca05d76d93, type: 2}
-  - {fileID: 11400000, guid: 88083e7e333222041a4c1206b8101e5d, type: 2}
-  - {fileID: 11400000, guid: e0100d18688f3f64ca015808b34c08ea, type: 2}
-  - {fileID: 11400000, guid: 626e02d692db7514da0fa934c8e5deae, type: 2}
-  - {fileID: 11400000, guid: e0100d18688f3f64ca015808b34c08ea, type: 2}
-  - {fileID: 11400000, guid: d79395fa5f8a1a345a1cbd64e5a4e712, type: 2}
-  pursueTargetState: {fileID: 1085328388}
-  rotateTowardsTargetState: {fileID: 0}
 --- !u!1001 &2115930909
 PrefabInstance:
   m_ObjectHideFlags: 0

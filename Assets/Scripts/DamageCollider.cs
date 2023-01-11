@@ -12,8 +12,7 @@ namespace Shifters
         int enemySpecialAttackDamageMultiplier = 2;
         public int currentWeaponDamage = 10;
         PlayerStats playerStats;
-        PlayerManager playerManager;
-
+        EnemyManager enemyManager;
         private void Awake()
         {
             damageCollider = GetComponent<Collider>();
@@ -21,6 +20,7 @@ namespace Shifters
             damageCollider.isTrigger = true;
             damageCollider.enabled = false;
             playerStats = FindObjectOfType<PlayerStats>();
+            enemyManager = FindObjectOfType<EnemyManager>();
         }
         //player
         public void EnableDamageCollider()
@@ -55,6 +55,10 @@ namespace Shifters
         }
         public void OnTriggerEnter(Collider collision)
         {
+            if (enemyManager.isPhaseShifting)
+            {
+                return;
+            }
             if (collision.tag == "Player")
             {
                 CharacterEffectManager playerCharacterEffectManager = collision.GetComponent<CharacterEffectManager>();
@@ -89,6 +93,17 @@ namespace Shifters
                         playerStats.manaBar.SetCurrentMana(0);
                     }
                 }
+            }
+
+            if (collision.tag == "Weapon")
+            {
+                CharacterEffectManager effectManager = FindObjectOfType<CharacterEffectManager>();
+                Vector3 contactPoint = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                EnemyStats enemyStats = FindObjectOfType<EnemyStats>();
+                effectManager.PlayOnHitFX(contactPoint);
+
+                enemyStats.WeaponCollision();
+
             }
         }
     }

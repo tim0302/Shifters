@@ -11,6 +11,12 @@ namespace Shifters
         public RotateTowardsTargetState rotateTowardsTargetState;
         public PursueTargetState pursueTargetState;
         public bool hasPerformedAttack = false;
+        EnemyManager enemyManager;
+
+        private void Awake()
+        {
+            enemyManager = GetComponentInParent<EnemyManager>();
+        }
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
 
@@ -21,7 +27,7 @@ namespace Shifters
                 return pursueTargetState;
             }
 
-            if (!hasPerformedAttack)
+            if (!hasPerformedAttack && !enemyManager.isInteracting)
             {
                 AttackTarget(enemyAnimatorManager, enemyManager);
             }

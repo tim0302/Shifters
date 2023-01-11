@@ -9,9 +9,9 @@ namespace Shifters
         public AttackState attackState;
         public EnemyAttackAction[] enemyAttacks;
         public PursueTargetState pursueTargetState;
-        bool randomDestinationSet = false;
-        float verticalMovementValue = 0;
-        float horizontalMovementValue = 0;
+        protected bool randomDestinationSet = false;
+        protected float verticalMovementValue = 0;
+        protected float horizontalMovementValue = 0;
         public RotateTowardsTargetState rotateTowardsTargetState;
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
@@ -61,7 +61,7 @@ namespace Shifters
             return this;
         }
 
-        private void GetNewAttack(EnemyManager enemyManager)
+        protected virtual void GetNewAttack(EnemyManager enemyManager)
         {
             Vector3 targetsDirection = enemyManager.currentTarget.transform.position - transform.position;
             float viewableAngle = Vector3.Angle(targetsDirection, transform.forward);

@@ -36,7 +36,7 @@ namespace Shifters
 
         private void Update()
         {
-            playerSpecialAttackDamageMultiplier = stamina / 10;
+            playerSpecialAttackDamageMultiplier = stamina / 18;
         }
         void Start()
         {
@@ -75,9 +75,9 @@ namespace Shifters
 
                 if (stamina == 0) { return; }
 
-                if ((currentHealth + (stamina * maxHealth) / 600) <= maxHealth)
+                if ((currentHealth + (stamina * maxHealth) / 400) <= maxHealth)
                 {
-                    currentHealth += (stamina * maxHealth) / 600;
+                    currentHealth += (stamina * maxHealth) / 400;
                     healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
                     characterSoundFXManager.PlayHeal();
                     characterEffectManager.PlayHealFX(playerManager.transform.position);

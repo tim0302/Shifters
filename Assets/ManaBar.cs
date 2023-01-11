@@ -16,5 +16,10 @@ namespace Shifters
         {
             slider.value = currentMana;
         }
+
+        public void TopUpMana()
+        {
+            slider.value = slider.maxValue;
+        }
     }
 }

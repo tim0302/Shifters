@@ -42,7 +42,13 @@ MonoBehaviour:
   isInteracting: isInteracting
   isInteractingStatus: 0
   isRotatingWithRootMotion: isRotatingWithRootMotion
+  canDoRollAttack: canDoRollAttack
+  canDoRollAttackStatus: 0
   isRotatingWithRootMotionStatus: 0
+  isPhaseShifting: isPhaseShifting
+  isInvulnerableState: 0
+  isInvulnerable: isVulnerable
+  isInvulnerableStatus: 0
 --- !u!1107 &-8818602389513949763
 AnimatorStateMachine:
   serializedVersion: 6
@@ -213,6 +219,28 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-8480887575044638158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 644277a2db2dd79479cf7d8b064eedbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteracting: isInteracting
+  isInteractingStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  canDoRollAttack: canDoRollAttack
+  canDoRollAttackStatus: 0
+  isRotatingWithRootMotionStatus: 0
+  isPhaseShifting: isPhaseShifting
+  isInvulnerableState: 0
+  isInvulnerable: isVulnerable
+  isInvulnerableStatus: 0
 --- !u!1107 &-7590745134131399511
 AnimatorStateMachine:
   serializedVersion: 6
@@ -284,7 +312,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Heal
-  m_Speed: 1
+  m_Speed: 0.02
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5149872302434771000}
@@ -898,6 +926,18 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: isPhaseShifting
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: isVulnerable
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1383,7 +1423,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Special_Attack
-  m_Speed: 1
+  m_Speed: 0.7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -694267496879854675}
@@ -1396,7 +1436,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6d028fff00e22264896c18115dec2f8c, type: 2}
+  m_Motion: {fileID: 7400000, guid: e31c5364d3d333747b0359866fb3588c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1784,6 +1824,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -9011569371079018054}
+  - {fileID: -8480887575044638158}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

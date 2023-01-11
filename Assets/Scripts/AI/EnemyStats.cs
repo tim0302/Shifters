@@ -10,6 +10,7 @@ namespace Shifters
         AnimatorHandler animatorHandler;
         EnemyBossManager enemyBossManager;
         CharacterSoundFXManager characterSoundFXManager;
+        EnemyManager enemyManager;
         EnemyWeaponManager enemyWeaponManager;
         PlayerStats playerStats;
         void Awake()
@@ -20,6 +21,7 @@ namespace Shifters
             enemyWeaponManager = GetComponent<EnemyWeaponManager>();
             enemyBossManager = GetComponent<EnemyBossManager>();
             maxHealth = SetMaxHealthFromHealthLevel();
+            enemyManager = GetComponent<EnemyManager>();
             currentHealth = maxHealth;
         }
 
@@ -29,14 +31,28 @@ namespace Shifters
             return maxHealth;
         }
 
+        public void WeaponCollision()
+        {
+            if (enemyManager.isPhaseShifting)
+            {
+                return;
+            }
+            enemyManager.currentRecoveryTime = 5f;
+            animator.SetBool("isInteracting", true);
+            animator.Play("Stunned");
+            characterSoundFXManager.PlayBladeParrySound();
+            playerStats.stamina = 100;
+            playerStats.manaBar.TopUpMana();
+        }
+
         public void TakeDamage(int damage)
         {
-            if (isDead)
+            if (isDead || enemyManager.isPhaseShifting)
                 return;
-            // playerStats.GainStaminaByDamage(damage);
 
             currentHealth -= damage;
-            enemyBossManager.UpdateBossHealthBar(currentHealth);
+            enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+
             if (!animator.GetBool("isInteracting"))
             {
                 animator.Play("Damage");

@@ -31,7 +31,10 @@ namespace Shifters
         public AudioClip[] deathSounds;
 
         public AudioClip endGame;
-        public AudioClip flameSlash;
+        [Header("FireSlash")]
+        public AudioClip[] fireSlash;
+        private List<AudioClip> potentialFireSlashSound;
+        private AudioClip lastFireSlashSound;
 
         [Header("FireSlash hit")]
         private List<AudioClip> potentialFlameSlashHitSound;
@@ -41,6 +44,7 @@ namespace Shifters
         public AudioClip footStep;
         public AudioClip dragonRoar;
         public AudioClip heal;
+        public AudioClip bladeParrySound;
         AnimatorHandler animatorHandler;
         protected void Awake()
         {
@@ -80,6 +84,10 @@ namespace Shifters
             audioSource.PlayOneShot(potentialWeaponWhooshes[randomValue]);
         }
 
+        public void PlayBladeParrySound()
+        {
+            audioSource.PlayOneShot(bladeParrySound, 0.7f);
+        }
         public virtual void PlayRandomEnemyWeaponWhoosh()
         {
             potentialWeaponWhooshesEnemy = new List<AudioClip>();
@@ -108,7 +116,17 @@ namespace Shifters
         }
         public virtual void PlayFireSlash()
         {
-            audioSource.PlayOneShot(flameSlash);
+            potentialFireSlashSound = new List<AudioClip>();
+            foreach (var fireSlashSound in fireSlash)
+            {
+                if (fireSlashSound != lastFireSlashSound)
+                {
+                    potentialFireSlashSound.Add(fireSlashSound);
+                }
+            }
+            int randomValue = Random.Range(0, potentialFireSlashSound.Count);
+            lastFireSlashSound = potentialFireSlashSound[randomValue];
+            audioSource.PlayOneShot(potentialFireSlashSound[randomValue]);
             audioSource.PlayOneShot(dragonRoar);
         }
 

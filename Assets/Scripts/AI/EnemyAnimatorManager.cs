@@ -7,10 +7,23 @@ namespace Shifters
     public class EnemyAnimatorManager : AnimatorManager
     {
         EnemyManager enemyManager;
+        EnemyStats enemyStats;
+        EnemyBossManager enemyBossManager;
+        public GameObject effectTransform;
         private void Awake()
         {
             animator = GetComponent<Animator>();
-            enemyManager = GetComponentInParent<EnemyManager>();
+            enemyStats = GetComponent<EnemyStats>();
+            enemyManager = GetComponent<EnemyManager>();
+            enemyBossManager = GetComponent<EnemyBossManager>();
+        }
+        public void EnableIsInvulnerable()
+        {
+
+        }
+        public void InstantiateBossParticleFX()
+        {
+            GameObject phaseFX = Instantiate(enemyBossManager.phaseChangeFX, effectTransform.transform);
         }
 
         private void OnAnimatorMove()
