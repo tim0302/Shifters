@@ -16,6 +16,8 @@ namespace Shifters
         public string Light_Attack_1;
 
         public string Light_Attack_2;
+        public string Light_Attack_3;
+        public string Light_Attack_4;
         public string Heavy_Attack;
 
         public string Special_Attack;

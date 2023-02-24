@@ -13,6 +13,7 @@ namespace Shifters
         public int currentWeaponDamage = 10;
         PlayerStats playerStats;
         EnemyManager enemyManager;
+        PlayerManager playerManager;
         private void Awake()
         {
             damageCollider = GetComponent<Collider>();
@@ -21,6 +22,7 @@ namespace Shifters
             damageCollider.enabled = false;
             playerStats = FindObjectOfType<PlayerStats>();
             enemyManager = FindObjectOfType<EnemyManager>();
+            playerManager = FindObjectOfType<PlayerManager>();
         }
         //player
         public void EnableDamageCollider()
@@ -63,7 +65,20 @@ namespace Shifters
             {
                 CharacterEffectManager playerCharacterEffectManager = collision.GetComponent<CharacterEffectManager>();
 
+
+                if (playerManager.isParrying)
+                {
+                    CharacterEffectManager effectManager = FindObjectOfType<CharacterEffectManager>();
+                    Vector3 contactPoint = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    EnemyStats enemyStats = FindObjectOfType<EnemyStats>();
+                    effectManager.PlayOnHitFX(contactPoint);
+                    damageCollider.enabled = false;
+                    enemyStats.WeaponCollision();
+                    return;
+                }
+
                 PlayerStats playerStats = collision.GetComponent<PlayerStats>();
+
                 if (playerStats != null)
                 {
                     playerStats.TakeDamage(isEnemySpecialAttack ? currentWeaponDamage * enemySpecialAttackDamageMultiplier : currentWeaponDamage);
@@ -93,17 +108,6 @@ namespace Shifters
                         playerStats.manaBar.SetCurrentMana(0);
                     }
                 }
-            }
-
-            if (collision.tag == "Weapon")
-            {
-                CharacterEffectManager effectManager = FindObjectOfType<CharacterEffectManager>();
-                Vector3 contactPoint = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                EnemyStats enemyStats = FindObjectOfType<EnemyStats>();
-                effectManager.PlayOnHitFX(contactPoint);
-
-                enemyStats.WeaponCollision();
-
             }
         }
     }

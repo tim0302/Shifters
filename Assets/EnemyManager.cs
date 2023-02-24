@@ -106,5 +106,10 @@ namespace Shifters
             }
         }
 
+        public void ResetRecoveryTime()
+        {
+            currentRecoveryTime = 0;
+        }
+
     }
 }

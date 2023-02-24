@@ -22,6 +22,7 @@ namespace Shifters
         public bool lockOnInput;
         public bool lockOnFlag;
         public bool restartInput;
+        public bool parry_Input;
         PlayerControls inputActions;
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
@@ -130,6 +131,8 @@ namespace Shifters
         {
             inputActions.PlayerActions.RB.performed += i => rb_Input = true;
             inputActions.PlayerActions.RT.performed += i => rt_Input = true;
+            inputActions.PlayerActions.Parry.performed += i => parry_Input = true;
+
             if (rb_Input)
             {
                 if (playerManager.canDoCombo)
@@ -143,11 +146,18 @@ namespace Shifters
                 {
                     playerAttacker.HandleLightAttack(playerInventory.weapon);
                 }
-
+                return;
             }
+            if (parry_Input)
+            {
+                playerAttacker.HandleParry(playerInventory.weapon);
+                return;
+            }
+
             if (rt_Input)
             {
-                playerAttacker.HandleHeavyAttack(playerInventory.weapon);
+                playerAttacker.HandleSpecialAttack(playerInventory.weapon);
+                return;
             }
         }
     }

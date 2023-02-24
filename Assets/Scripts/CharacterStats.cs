@@ -12,5 +12,6 @@ namespace Shifters
         public bool isDead;
         public int stamina = 0;
         public int maxStamina = 100;
+
     }
 }

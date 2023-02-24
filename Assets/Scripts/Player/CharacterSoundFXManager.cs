@@ -36,6 +36,11 @@ namespace Shifters
         private List<AudioClip> potentialFireSlashSound;
         private AudioClip lastFireSlashSound;
 
+        [Header("Weapon collision")]
+        private List<AudioClip> potentialWeaponCollisionSound;
+        public AudioClip[] weaponCollisionSound;
+        private AudioClip lastWeaponCollisionSound;
+
         [Header("FireSlash hit")]
         private List<AudioClip> potentialFlameSlashHitSound;
         public AudioClip[] flameSlashHitSound;
@@ -65,7 +70,7 @@ namespace Shifters
 
             int randomValue = Random.Range(0, potentialDamageSounds.Count);
             lastDamageSoundsPlayed = potentialDamageSounds[randomValue];
-            audioSource.PlayOneShot(potentialDamageSounds[randomValue], 0.2f);
+            audioSource.PlayOneShot(potentialDamageSounds[randomValue], 0.5f);
 
         }
 
@@ -86,8 +91,19 @@ namespace Shifters
 
         public void PlayBladeParrySound()
         {
-            audioSource.PlayOneShot(bladeParrySound, 0.7f);
+            potentialWeaponCollisionSound = new List<AudioClip>();
+            foreach (var collisionSound in weaponCollisionSound)
+            {
+                if (collisionSound != lastWeaponCollisionSound)
+                {
+                    potentialWeaponCollisionSound.Add(collisionSound);
+                }
+            }
+            int randomValue = Random.Range(0, potentialWeaponCollisionSound.Count);
+            lastWeaponCollisionSound = potentialWeaponCollisionSound[randomValue];
+            audioSource.PlayOneShot(potentialWeaponCollisionSound[randomValue], 2.0f);
         }
+
         public virtual void PlayRandomEnemyWeaponWhoosh()
         {
             potentialWeaponWhooshesEnemy = new List<AudioClip>();
@@ -100,7 +116,7 @@ namespace Shifters
             }
             int randomValue = Random.Range(0, potentialWeaponWhooshesEnemy.Count);
             lastWeaponWhooshEnemy = potentialWeaponWhooshesEnemy[randomValue];
-            audioSource.PlayOneShot(potentialWeaponWhooshesEnemy[randomValue]);
+            audioSource.PlayOneShot(potentialWeaponWhooshesEnemy[randomValue], 2.0f);
         }
 
         public virtual void PlayRandomDeathSound()
@@ -126,7 +142,7 @@ namespace Shifters
             }
             int randomValue = Random.Range(0, potentialFireSlashSound.Count);
             lastFireSlashSound = potentialFireSlashSound[randomValue];
-            audioSource.PlayOneShot(potentialFireSlashSound[randomValue]);
+            audioSource.PlayOneShot(potentialFireSlashSound[randomValue], 2.0f);
             audioSource.PlayOneShot(dragonRoar);
         }
 

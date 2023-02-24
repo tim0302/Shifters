@@ -36,7 +36,7 @@ namespace Shifters
 
         private void Update()
         {
-            playerSpecialAttackDamageMultiplier = stamina / 18;
+            playerSpecialAttackDamageMultiplier = stamina / 10;
         }
         void Start()
         {
@@ -61,6 +61,19 @@ namespace Shifters
 
             }
         }
+
+        public void GainStaminaByParry(int staminaGained)
+        {
+            if (stamina + staminaGained >= maxStamina)
+            {
+                stamina = maxStamina;
+                manaBar.SetCurrentMana(stamina);
+                return;
+            }
+            stamina += staminaGained;
+            manaBar.SetCurrentMana(stamina);
+        }
+
         private int SetMaxHealthFromHealthLevel()
         {
             maxHealth = healthLevel * 10;

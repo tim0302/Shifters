@@ -99,10 +99,19 @@ namespace Shifters
             Vector3 velocity = deltaPosition / delta;
             playerLocomotion.rigidbody.velocity = velocity;
         }
+        public void EnableParry()
+        {
+            animator.SetBool("isParrying", true);
+        }
+
+        public void DisableParry()
+        {
+            animator.SetBool("isParrying", false);
+        }
+
         public void EnableCombo()
         {
             animator.SetBool("canDoCombo", true);
-
         }
 
         public void DisableCombo()

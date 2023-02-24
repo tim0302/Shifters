@@ -14,8 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Sword
   modelPrefab: {fileID: 2639195786383032608, guid: 0b2e144671c21d94fba7810236252220, type: 3}
+  baseDamage: 0
+  damageMuiltiplier: 0
   Light_Attack_1: Light_Attack_1
   Light_Attack_2: Light_Attack_2
+  Light_Attack_3: Light_Attack_3
+  Light_Attack_4: Light_Attack_4
   Heavy_Attack: Heavy_Attack
   Special_Attack: Special_Attack
   weaponWhooshes:

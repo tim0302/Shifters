@@ -12,6 +12,7 @@ namespace Shifters
         PlayerLocomotion playerLocomotion;
         public bool isInteracting;
         public bool canDoCombo;
+        public bool isParrying;
         public bool canDoRollAttack;
         public CharacterSoundFXManager characterSoundFXManager;
         public bool isInvulnerable;
@@ -35,6 +36,7 @@ namespace Shifters
             float delta = Time.deltaTime;
             isInteracting = animator.GetBool("isInteracting");
             canDoCombo = animator.GetBool("canDoCombo");
+            isParrying = animator.GetBool("isParrying");
             canDoRollAttack = animator.GetBool("canDoRollAttack");
             inputHandler.TickInput(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
@@ -57,6 +59,7 @@ namespace Shifters
             inputHandler.rollFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
+            inputHandler.parry_Input = false;
             inputHandler.healFlag = false;
 
             float delta = Time.deltaTime;

@@ -2414,7 +2414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b9b14f59ed2e6458ccd0048d4d82a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 100
+  healthLevel: 80
   maxHealth: 0
   currentHealth: 0
   isDead: 0
@@ -2457,8 +2457,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1df1bd890d81d4f49bbe06f7b19000a4, type: 3}
   - {fileID: 8300000, guid: 2e0ef8138b4d15c4fa2a5f650ba56306, type: 3}
   - {fileID: 8300000, guid: 04d9c31715e48014db5ffe344809e8d2, type: 3}
+  weaponCollisionSound:
+  - {fileID: 8300000, guid: 8ad556336d14bc249aca6d2ef1faae6f, type: 3}
+  - {fileID: 8300000, guid: 2d9b5533ecef77246aa9242762c33965, type: 3}
+  - {fileID: 8300000, guid: 29b5e0ac696dd9e48bc21c31f19eb5f5, type: 3}
   flameSlashHitSound:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 414b6a075ff02f64a8b212029f89ba49, type: 3}
+  - {fileID: 8300000, guid: 703eba2399f825949ae49abd9a7f49ba, type: 3}
+  - {fileID: 8300000, guid: a6d2e7c2d3b834d4185fd343598d3fc0, type: 3}
   rollSound: {fileID: 0}
   footStep: {fileID: 8300000, guid: e805829489a7902408450327309ffa0d, type: 3}
   dragonRoar: {fileID: 0}
@@ -2524,7 +2530,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -32367,6 +32373,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1df1bd890d81d4f49bbe06f7b19000a4, type: 3}
   - {fileID: 8300000, guid: 2e0ef8138b4d15c4fa2a5f650ba56306, type: 3}
   - {fileID: 8300000, guid: 04d9c31715e48014db5ffe344809e8d2, type: 3}
+  weaponCollisionSound: []
   flameSlashHitSound:
   - {fileID: 8300000, guid: 414b6a075ff02f64a8b212029f89ba49, type: 3}
   - {fileID: 8300000, guid: 703eba2399f825949ae49abd9a7f49ba, type: 3}
@@ -35179,8 +35186,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 40ddf1b8e8eef5b488b1e87d681e71a0, type: 2}
   - {fileID: 11400000, guid: bf2ddae624e0daa4b9da9d44d5bde148, type: 2}
   - {fileID: 11400000, guid: 286dd87240ee95942b3c6d246005067a, type: 2}
+  - {fileID: 11400000, guid: c16763d7ac843de4fa0d56bfbd43c651, type: 2}
+  - {fileID: 11400000, guid: 25dcd49a4c715a64d8d2fc05f1a1a789, type: 2}
   - {fileID: 11400000, guid: d79395fa5f8a1a345a1cbd64e5a4e712, type: 2}
-  - {fileID: 11400000, guid: e0100d18688f3f64ca015808b34c08ea, type: 2}
 --- !u!1001 &1825126479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36653,10 +36661,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.3
-  m_Height: 2
+  m_Radius: 0.4
+  m_Height: 2.123857
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.5880716, z: 0}
 --- !u!114 &1920430851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36704,6 +36712,7 @@ MonoBehaviour:
   lockOnInput: 0
   lockOnFlag: 0
   restartInput: 0
+  parry_Input: 0
 --- !u!114 &1920430853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36721,6 +36730,7 @@ MonoBehaviour:
   lockOnTransform: {fileID: 338216990}
   isInteracting: 0
   canDoCombo: 0
+  isParrying: 0
   canDoRollAttack: 0
   characterSoundFXManager: {fileID: 0}
   isInvulnerable: 0
@@ -36951,6 +36961,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c8cdf84fd483f6249ab2f23f5e2b366f, type: 3}
   endGame: {fileID: 8300000, guid: fd03c810e9e877e4bb055dc8c7bc4017, type: 3}
   fireSlash: []
+  weaponCollisionSound:
+  - {fileID: 8300000, guid: 3e356669372aa6045825d0e042c5d3f6, type: 3}
+  - {fileID: 8300000, guid: 1252defce1f395f489e0ea0d8d5251e9, type: 3}
+  - {fileID: 8300000, guid: c3811489a03be424fb72de98648ac23f, type: 3}
+  - {fileID: 8300000, guid: 095891f7c8ea363448d48206e007e8cb, type: 3}
+  - {fileID: 8300000, guid: 3218ad06f79137945be832100812981c, type: 3}
   flameSlashHitSound: []
   rollSound: {fileID: 0}
   footStep: {fileID: 0}

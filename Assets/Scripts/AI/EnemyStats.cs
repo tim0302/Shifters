@@ -13,6 +13,8 @@ namespace Shifters
         EnemyManager enemyManager;
         EnemyWeaponManager enemyWeaponManager;
         PlayerStats playerStats;
+        EnemyAttackAction enemyAttackAction;
+
         void Awake()
         {
             playerStats = FindObjectOfType<PlayerStats>();
@@ -23,6 +25,7 @@ namespace Shifters
             maxHealth = SetMaxHealthFromHealthLevel();
             enemyManager = GetComponent<EnemyManager>();
             currentHealth = maxHealth;
+            enemyAttackAction = FindObjectOfType<EnemyAttackAction>();
         }
 
         private int SetMaxHealthFromHealthLevel()
@@ -39,10 +42,13 @@ namespace Shifters
             }
             enemyManager.currentRecoveryTime = 5f;
             animator.SetBool("isInteracting", true);
-            animator.Play("Stunned");
+            // animator.Play("Stunned");
             characterSoundFXManager.PlayBladeParrySound();
-            playerStats.stamina = 100;
-            playerStats.manaBar.TopUpMana();
+            playerStats.GainStaminaByParry(25);
+            animator.Play("Damage");
+            enemyWeaponManager.CloseDamageCollider();
+            enemyWeaponManager.DisableEnemySpecialDamage();
+            enemyManager.ResetRecoveryTime();
         }
 
         public void TakeDamage(int damage)

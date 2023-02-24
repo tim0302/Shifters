@@ -22,11 +22,29 @@ namespace Shifters
             if (inputHandler.comboFlag)
             {
                 animatorHandler.animator.SetBool("canDoCombo", false);
+
                 if (lastAttack == weapon.Light_Attack_1)
                 {
                     animatorHandler.PlayTargetAnimation(weapon.Light_Attack_2, true);
                     characterEffectManager.PlayWeaponFX(false);
+                    lastAttack = weapon.Light_Attack_2;
+                    return;
+                }
 
+                if (lastAttack == weapon.Light_Attack_2)
+                {
+                    animatorHandler.PlayTargetAnimation(weapon.Light_Attack_3, true);
+                    characterEffectManager.PlayWeaponFX(false);
+                    lastAttack = weapon.Light_Attack_3;
+                    return;
+                }
+
+                if (lastAttack == weapon.Light_Attack_3)
+                {
+                    animatorHandler.PlayTargetAnimation(weapon.Light_Attack_4, true);
+                    characterEffectManager.PlayWeaponFX(false);
+                    lastAttack = weapon.Light_Attack_4;
+                    return;
                 }
             }
         }
@@ -46,7 +64,15 @@ namespace Shifters
             }
         }
 
-        public void HandleHeavyAttack(WeaponItem weapon)
+        public void HandleParry(WeaponItem weapon)
+        {
+            if (!animatorHandler.animator.GetBool("isInteracting"))
+            {
+                animatorHandler.PlayTargetAnimation("parry", true);
+            }
+        }
+
+        public void HandleSpecialAttack(WeaponItem weapon)
         {
             if (!animatorHandler.animator.GetBool("isInteracting"))
             {
