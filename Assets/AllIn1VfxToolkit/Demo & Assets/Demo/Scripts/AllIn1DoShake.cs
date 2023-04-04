@@ -7,19 +7,19 @@ namespace AllIn1VfxToolkit.Demo.Scripts
         [SerializeField] private float shakeAmount = 0.15f;
         [SerializeField] private bool doShakeOnStart;
         [SerializeField] private float shakeOnStartDelay;
-        
+
         private void Start()
         {
-            if(doShakeOnStart)
+            if (doShakeOnStart)
             {
-                if(shakeOnStartDelay < Time.deltaTime) DoShake();
+                if (shakeOnStartDelay < Time.deltaTime) DoShake();
                 else Invoke(nameof(DoShake), shakeOnStartDelay);
             }
         }
 
         public void DoShake()
         {
-            AllIn1Shaker.i.DoCameraShake(shakeAmount);
+            //AllIn1Shaker.i.DoCameraShake(shakeAmount);
         }
     }
 }

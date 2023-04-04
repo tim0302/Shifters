@@ -14,12 +14,11 @@ namespace Shifters
         public void Initialise()
         {
             playerManager = GetComponentInParent<PlayerManager>();
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
             inputHandler = GetComponentInParent<InputHandler>();
-
         }
         public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement)
         {
