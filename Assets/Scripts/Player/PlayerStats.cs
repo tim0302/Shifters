@@ -144,14 +144,12 @@ namespace Shifters
 
             if (!animator.GetBool("isInteracting"))
             {
-                if (damage >= 50)
-                {
-                    animatorHandler.PlayTargetAnimation("Stunned", true);
-                }
-                else
-                {
-                    animator.Play("Damage");
-                }
+
+                animator.Play("Damage");
+            }
+            if (damage >= 50)
+            {
+                animatorHandler.PlayTargetAnimation("Stunned", true);
             }
 
             if (currentHealth <= 0)

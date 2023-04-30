@@ -12,10 +12,12 @@ namespace Shifters
         public PursueTargetState pursueTargetState;
         public bool hasPerformedAttack = false;
         EnemyManager enemyManager;
+        public EnemyAbilityHandler abilityHandler;
 
         private void Awake()
         {
             enemyManager = GetComponentInParent<EnemyManager>();
+            abilityHandler = GetComponentInParent<EnemyAbilityHandler>();
         }
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
@@ -38,6 +40,7 @@ namespace Shifters
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            abilityHandler.CastAbility(currentAttack.ability);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             currentAttack = null;
             hasPerformedAttack = true;

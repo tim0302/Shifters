@@ -49,6 +49,7 @@ namespace Shifters
         public AudioClip footStep;
         public AudioClip dragonRoar;
         public AudioClip heal;
+        public AudioClip flameCutEnd;
         public AudioClip bladeParrySound;
         AnimatorHandler animatorHandler;
         protected void Awake()
@@ -154,6 +155,11 @@ namespace Shifters
         public virtual void PlayHeal()
         {
             audioSource.PlayOneShot(heal, 0.5f);
+        }
+
+        public virtual void PlayFlameCutEnd()
+        {
+            audioSource.PlayOneShot(flameCutEnd, 1);
         }
 
         public virtual void PlayFootStep()

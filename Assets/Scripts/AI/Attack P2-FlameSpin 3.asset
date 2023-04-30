@@ -19,3 +19,4 @@ MonoBehaviour:
   minimumAttackAngle: -35
   minimumDistanceNeededToAttack: 1
   maximumDistanceNeededToAttack: 8
+  ability: 1

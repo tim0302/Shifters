@@ -29,8 +29,12 @@ namespace Shifters
             bossHealthBar = FindObjectOfType<UIBossHealthBar>();
             audioSource = GetComponent<AudioSource>();
             enemyManager = FindObjectOfType<EnemyManager>();
-        }
 
+        }
+        void Start()
+        {
+            Cursor.visible = false;
+        }
         public void ActivateBossFight()
         {
             if (bossFightIsActive)
