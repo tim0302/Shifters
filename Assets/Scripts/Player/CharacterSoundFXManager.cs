@@ -58,7 +58,7 @@ namespace Shifters
             audioSource = GetComponent<AudioSource>();
             playerInventory = GetComponent<PlayerInventory>();
         }
-        public virtual void PlayRandomDamageSoundFX()
+        public virtual void PlayRandomDamageSoundFX(int damage)
         {
             potentialDamageSounds = new List<AudioClip>();
             foreach (var damageSound in takingDamageSounds)
@@ -71,7 +71,7 @@ namespace Shifters
 
             int randomValue = Random.Range(0, potentialDamageSounds.Count);
             lastDamageSoundsPlayed = potentialDamageSounds[randomValue];
-            audioSource.PlayOneShot(potentialDamageSounds[randomValue], 0.5f);
+            audioSource.PlayOneShot(potentialDamageSounds[randomValue], damage / 50f);
 
         }
 

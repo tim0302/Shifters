@@ -49,29 +49,31 @@ namespace Shifters
         }
         public void GainStaminaByDamage(int damage)
         {
-            if ((stamina + damage / 2) <= maxStamina)
-            {
-                stamina += damage / 2;
-                manaBar.SetCurrentMana(stamina);
-            }
-            else
-            {
-                stamina = maxStamina;
-                manaBar.SetCurrentMana(stamina);
-
-            }
+            // if ((stamina + damage / 4) <= maxStamina)
+            // {
+            stamina = Mathf.Clamp(stamina += damage / 4, 0, maxStamina);
+            stamina += damage / 4;
+            manaBar.SetCurrentMana(stamina);
+            // }
+            // else
+            // {
+            //     stamina = maxStamina;
+            //     manaBar.SetCurrentMana(stamina);
+            // }
         }
 
         public void GainStaminaByParry(int staminaGained)
         {
-            if (stamina + staminaGained >= maxStamina)
-            {
-                stamina = maxStamina;
-                manaBar.SetCurrentMana(stamina);
-                return;
-            }
-            stamina += staminaGained;
+            stamina = Mathf.Clamp(stamina += staminaGained, 0, maxStamina);
             manaBar.SetCurrentMana(stamina);
+            // if (stamina + staminaGained >= maxStamina)
+            // {
+            //     stamina = maxStamina;
+            //     manaBar.SetCurrentMana(stamina);
+            //     return;
+            // }
+            // stamina += staminaGained;
+            // manaBar.SetCurrentMana(stamina);
         }
 
         private int SetMaxHealthFromHealthLevel()
@@ -88,21 +90,26 @@ namespace Shifters
 
                 if (stamina == 0) { return; }
 
-                if ((currentHealth + (stamina * maxHealth) / 400) <= maxHealth)
-                {
-                    currentHealth += (stamina * maxHealth) / 400;
-                    healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
-                    characterSoundFXManager.PlayHeal();
-                    characterEffectManager.PlayHealFX(playerManager.transform.position);
+                //TODO: REFACTOR USE CLAMP
+                currentHealth = Mathf.Clamp(currentHealth + (stamina * maxHealth) / 400, 0, maxHealth);
+                healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+                characterSoundFXManager.PlayHeal();
+                characterEffectManager.PlayHealFX(playerManager.transform.position);
+                // if ((currentHealth + (stamina * maxHealth) / 400) <= maxHealth)
+                // {
+                //     currentHealth += (stamina * maxHealth) / 400;
+                //     healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+                //     characterSoundFXManager.PlayHeal();
+                //     characterEffectManager.PlayHealFX(playerManager.transform.position);
 
-                }
-                else
-                {
-                    currentHealth = maxHealth;
-                    healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
-                    characterSoundFXManager.PlayHeal();
-                    characterEffectManager.PlayHealFX(playerManager.transform.position);
-                }
+                // }
+                // else
+                // {
+                //     currentHealth = maxHealth;
+                //     healthBar.color = gradient.Evaluate((float)currentHealth / (float)maxHealth);
+                //     characterSoundFXManager.PlayHeal();
+                //     characterEffectManager.PlayHealFX(playerManager.transform.position);
+                // }
 
                 healthbar.SetCurrentHealth(currentHealth);
                 stamina = 0;
@@ -118,19 +125,21 @@ namespace Shifters
             if (playerManager.isInvulnerable)
                 return;
 
-            if ((stamina + damage / 4) <= maxStamina)
-            {
-                stamina += damage / 4;
-                manaBar.SetCurrentMana(stamina);
-            }
-            else
-            {
-                stamina = maxStamina;
-                manaBar.SetCurrentMana(stamina);
+            stamina = Mathf.Clamp(stamina + damage / 4, 0, maxStamina);
 
-            }
+            // if ((stamina + damage / 4) <= maxStamina)
+            // {
+            //     stamina += damage / 4;
+            //     manaBar.SetCurrentMana(stamina);
+            // }
+            // else
+            // {
+            //     stamina = maxStamina;
+            //     manaBar.SetCurrentMana(stamina);
 
-            characterSoundFXManager.PlayRandomDamageSoundFX();
+            // }
+
+            characterSoundFXManager.PlayRandomDamageSoundFX(damage);
             weaponManager.CloseDamageCollider();
             weaponManager.DisableSpecialDamage();
 

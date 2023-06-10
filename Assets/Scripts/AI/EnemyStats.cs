@@ -45,7 +45,7 @@ namespace Shifters
             // animator.Play("Stunned");
             characterSoundFXManager.PlayBladeParrySound();
             playerStats.GainStaminaByParry(25);
-            animator.Play("Damage");
+            // animator.Play("Damage");
             enemyWeaponManager.CloseDamageCollider();
             enemyWeaponManager.DisableEnemySpecialDamage();
             enemyManager.ResetRecoveryTime();
@@ -65,7 +65,7 @@ namespace Shifters
             }
             enemyWeaponManager.CloseDamageCollider();
             enemyWeaponManager.DisableEnemySpecialDamage();
-            characterSoundFXManager.PlayRandomDamageSoundFX();
+            characterSoundFXManager.PlayRandomDamageSoundFX(damage);
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
